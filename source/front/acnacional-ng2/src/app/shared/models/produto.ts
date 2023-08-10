@@ -18,4 +18,5 @@ export interface Produto {
   tipo?: TipoProduto;
   grupo?: GrupoProduto;
   subGrupo?: SubGrupoProduto;
+  frete?:boolean;
 }

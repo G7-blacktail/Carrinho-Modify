@@ -74,16 +74,20 @@ export class FinalizarComponent extends AbstractComponent implements OnInit {
   }
 
   private calcularValorTotal(): void {
-    let totalProdutos = 0;
 
-    if (this.item.produtoList) {
-      for (const produto of this.item.produtoList) {
-        totalProdutos += produto.valor;
-      }
-    }
+    // if (typeof this.item.valor === 'string') {
+    //   console.log("Eu sou uma string");
+    //   let numericValue = parseFloat(this.item.valor); // ou parseInt(this.item.valor) se for um número inteiro
+    //   numericValue += this.valorFrete;
+    //   console.log("Valor numérico:", numericValue.toFixed(2).replace(".",","));
 
-    this.item.valor = totalProdutos;
-    this.item.valor += this.valorFrete;
+    //  let formattedValue = numericValue.toFixed(2).replace(".", ",");
+    //   console.log("Valor numérico formatado:", formattedValue);
+    //   // this.item.valor = formattedValue;
+    // } else {
+    //   console.log(this.item.valor);
+    // }
+    
   }
 
 
@@ -248,7 +252,4 @@ export class FinalizarComponent extends AbstractComponent implements OnInit {
       }
     );
   }
-
-
-
 }
