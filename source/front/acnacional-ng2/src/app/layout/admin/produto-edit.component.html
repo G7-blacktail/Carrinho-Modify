@@ -1,0 +1,172 @@
+<div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Produtos</h4>
+        <h6 class="card-subtitle mb-3 text-muted">Cadastro de produto</h6>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
+          <div class="row">
+            <div class="form-group col-md-2 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="codigo">Código</label>
+              <input type="text" id="codigo" name="codigo" formControlName="codigo" placeholder="Código" maxlength="20" class="form-control" [ngClass]="{'is-invalid': formErrors.codigo}" [readonly]="id" required />
+              <div class="form-control-feedback" *ngIf="formErrors.codigo">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.codigo }}
+              </div>
+              <small class="form-text text-muted">Código do produto, deve ser único</small>
+            </div>
+            <div class="form-group col-md-2 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="codigoSerpro">Código no SERPRO</label>
+              <input type="text" id="codigoSerpro" name="codigoSerpro" formControlName="codigoSerpro" placeholder="Código SERPRO" maxlength="50" class="form-control" [ngClass]="{'is-invalid': formErrors.codigoSerpro}" />
+              <div class="form-control-feedback" *ngIf="formErrors.codigoSerpro">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.codigoSerpro }}
+              </div>
+              <small class="form-text text-muted">Código do produto no SERPRO</small>
+            </div>
+            <div class="form-group col-md-2 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="ordem">Ordenação</label>
+              <input type="text" id="ordem" name="ordem" formControlName="ordem" placeholder="Ordenação" maxlength="3" class="form-control" [ngClass]="{'is-invalid': formErrors.ordem}" required />
+              <div class="form-control-feedback" *ngIf="formErrors.ordem">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.ordem }}
+              </div>
+              <small class="form-text text-muted">Ordenação do produto, usada na listagem</small>
+            </div>
+            <div class="form-group col-md-6 col-sm-12 col-xs-12">
+              <label class="form-control-label" for="nome">Nome</label>
+              <input type="text" id="nome" name="nome" formControlName="nome" placeholder="Nome" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.nome}" required />
+              <div class="form-control-feedback" *ngIf="formErrors.nome">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.nome }}
+              </div>
+              <small class="form-text text-muted">Nome do produto, deve ser único</small>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+              <label class="form-control-label" for="descricao">Descrição</label>
+              <textarea id="descricao" name="descricao" formControlName="descricao" placeholder="Descrição ou especificação do produto" class="form-control" [ngClass]="{'is-invalid': formErrors.descricao}" rows="4" required></textarea>
+              <div class="form-control-feedback" *ngIf="formErrors.descricao">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.descricao }}
+              </div>
+              <small class="form-text text-muted">Texto detalhado do produto</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-12" formGroupName="tipo">
+              <label class="form-control-label" for="tipo">Tipo</label>
+              <select id="tipo" name="tipo" formControlName="id" class="form-control" (change)="onChangeTipo()" [ngClass]="{'is-invalid': formErrors['tipo.id']}" required>
+                <option *ngFor="let t of tipoList" [value]="t.id">{{t.nome}}</option>
+              </select>
+              <div class="form-control-feedback" *ngIf="formErrors['tipo.id']">
+                <span class="fa fa-alert"></span>
+                {{ formErrors['tipo.id'] }}
+              </div>
+              <small class="form-text text-muted">Tipo do produto</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-12" formGroupName="grupo">
+              <label class="form-control-label" for="grupo">Grupo</label>
+              <select required id="grupo" name="grupo" formControlName="id" class="form-control" (change)="onChangeGrupo()" [ngClass]="{'is-invalid': formErrors['grupo.id']}">
+                <option *ngFor="let g of grupoList" [value]="g.id">{{g.nome}}</option>
+              </select>
+              <div class="form-control-feedback" *ngIf="formErrors['grupo.id']">
+                <span class="fa fa-alert"></span>
+                {{ formErrors['grupo.id'] }}
+              </div>
+              <small class="form-text text-muted">Grupo do produto</small>
+            </div>
+            <div class="form-group col-md-6 col-sm-12 col-xs-12" formGroupName="subGrupo">
+              <label class="form-control-label" for="subGrupo">SubGrupo</label>
+              <select required id="subGrupo" name="subGrupo" formControlName="id" class="form-control" [ngClass]="{'is-invalid': formErrors['subGrupo.id']}">
+                <option *ngFor="let s of subGrupoList" [value]="s.id">{{s.nome}}</option>
+              </select>
+              <div class="form-control-feedback" *ngIf="formErrors['subGrupo.id']">
+                <span class="fa fa-alert"></span>
+                {{ formErrors['subGrupo.id'] }}
+              </div>
+              <small class="form-text text-muted">Grupo do produto</small>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+              <label class="form-control-label" for="imagem">Imagem</label>
+              <input type="text" id="imagem" name="imagem" formControlName="imagem" placeholder="URL da imagem" maxlength="1000" class="form-control" [ngClass]="{'is-invalid': formErrors.imagem}" />
+              <div class="form-control-feedback" *ngIf="formErrors.imagem">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.imagem }}
+              </div>
+              <small class="form-text text-muted">Imagem que será exibida para o produto</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="validade">Validade</label>
+              <input type="text" id="validade" name="validade" formControlName="validade" placeholder="Validade do produto" maxlength="3" class="form-control" [ngClass]="{'is-invalid': formErrors.validade}" />
+              <div class="form-control-feedback" *ngIf="formErrors.validade">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.validade }}
+              </div>
+              <small class="form-text text-muted">Validade do produto, em meses</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="valorReferencia">Valor de referência</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">R$</span>
+                </div>
+                <input type="text" id="valorReferencia" name="valorReferencia" formControlName="valorReferencia" placeholder="Valor em R$" maxlength="10" class="form-control" [ngClass]="{'is-invalid': formErrors.valorReferencia}" required />
+              </div>
+              <div class="form-control-feedback" *ngIf="formErrors.valorReferencia">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.valorReferencia }}
+              </div>
+              <small class="form-text text-muted">Valor de referência</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="valorDesconto">Valor do desconto</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">R$</span>
+                </div>
+                <input type="text" id="valorDesconto" name="valorDesconto" formControlName="valorDesconto" placeholder="Valor em R$" maxlength="10" class="form-control" [ngClass]="{'is-invalid': formErrors.valorDesconto}" required />
+              </div>
+              <div class="form-control-feedback" *ngIf="formErrors.valorDesconto">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.valorDesconto }}
+              </div>
+              <small class="form-text text-muted">Valor do desconto</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="valor">Valor</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">R$</span>
+                </div>
+                <input type="text" id="valor" name="valor" formControlName="valor" placeholder="Valor em R$" maxlength="10" class="form-control" [ngClass]="{'is-invalid': formErrors.valor}" required />
+              </div>
+              <div class="form-control-feedback" *ngIf="formErrors.valor">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.valor }}
+              </div>
+              <small class="form-text text-muted">Valor final do produto</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-12 col-xs-12" *ngIf="id">
+              <label class="form-control-label" for="descricao">Situação</label>
+              <div class="form-check" [ngClass]="{'is-invalid': formErrors.ativo}">
+                <label class="form-check-label">
+                  <input type="checkbox" id="ativo" name="ativo" formControlName="ativo" class="form-check-input" />
+                  Ativo
+                </label>
+              </div>
+              <small class="form-text text-muted">Se está à venda ou não</small>
+            </div>
+          </div>
+          <div class="row button-row">
+            <div class="col-md-12 text-center">
+              <a [routerLink]="['/admin/produto']" class="btn btn-warning">
+                <span class="fa fa-arrow-left"></span>
+                Voltar
+              </a>
+              <button type="submit" [disabled]="!form.valid" class="btn btn-primary">
+                <span class="fa fa-save"></span>
+                Salvar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,153 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-white bg-faded">
+  <div class="container">
+    <div class="navbar-brand">
+      <!--<span class="fa fa-shield"></span>
+      AR Lidersis
+      <br />
+      <small style="font-size: 11px;">
+        Autoridade Certificadora <strong>SERPRO</strong>
+      </small>-->
+      <a class="nav-link" href="https://certificadoranacional.com">
+        <img [src]="logoUrl" style="height: 72px;" />
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" aria-controls="navbarNav" aria-label="Toggle navigation" [attr.aria-expanded]="!isNavbarCollapsed" (click)="isNavbarCollapsed = !isNavbarCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navbarNav" class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/publico']">
+            <span class="fa fa-shopping-cart"></span>
+            Comprar
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/privado/voucher']">
+            <span class="fa fa-calendar"></span>
+            Agendar
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn()">
+          <a class="nav-link" [routerLink]="['/privado/pedido']">
+            <span class="fa fa-shopping-basket"></span>
+            Meus Pedidos
+          </a>
+        </li>
+        <!--
+        <li class="nav-item" *ngIf="isLoggedIn()">
+          <a class="nav-link" [routerLink]="['/privado/pre-cadastro']">
+            <span class="fa fa-address-book"></span>
+            Pré Cadastro
+          </a>
+        </li>
+        -->
+        <li class="nav-item" *ngIf="isAgentePosto()">
+          <a class="nav-link" [routerLink]="['/admin/agenda']">
+            <span class="fa fa-calendar"></span>
+            Calendário
+          </a>
+        </li>
+        <li class="nav-item dropdown" *ngIf="isAdmin()">
+          <div class="d-inline-block" ngbDropdown>
+            <a class="nav-link dropdown-toggle" id="admDropDownLink" href="javascript:void(0);" ngbDropdownToggle>
+              <span class="fa fa-wrench"></span>
+              Administração
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="admDropDownLink" ngbDropdownMenu>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/admin/convenio']">
+                  <span class="fa fa-money"></span>
+                  Convênio
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/admin/pedido']">
+                  <span class="fa fa-shopping-basket"></span>
+                  Pedidos
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/admin/grupo-produto']">
+                  <span class="fa fa-object-group"></span>
+                  Grupo Produto
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/admin/posto']">
+                  <span class="fa fa-home"></span>
+                  Pontos de Atendimento
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/admin/produto']">
+                  <span class="fa fa-shopping-bag"></span>
+                  Produtos
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/admin/subgrupo-produto']">
+                  <span class="fa fa-object-group"></span>
+                  Subgrupo Produto
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item" *ngIf="!isLoggedIn()">
+          <a class="nav-link" href="javascript:void(0);" (click)="login();">
+            <span class="fa fa-sign-in"></span>
+            Login
+          </a>
+        </li>
+      </ul>
+      <div title="Logado como {{getUsername()}}" class="navbar-text d-none d-sm-block" *ngIf="isLoggedIn()">
+        <div class="d-inline-block" ngbDropdown>
+          <a class="nav-link dropdown-toggle text-dark" id="userDropDownLink" href="javascript:void(0);" aria-haspopup="true" ngbDropdownToggle>
+            <span class="fa fa-user"></span>
+            {{getUsername()}}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="userDropDownLink" ngbDropdownMenu>
+            <li>
+              <a class="dropdown-item" [routerLink]="['/privado/conta-edit']">
+                <span class="fa fa-shopping-basket"></span>
+                Meus Dados
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" class="dropdown-item" (click)="logout();">
+                <span class="fa fa-sign-out"></span>
+                Sair
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="mb-2 p-2">
+        <div style="font-size: 15px;">
+          Se tiver <strong>dúvida</strong> ou preferir <strong>comprar de outra forma</strong>, fale com nossos consultores:
+          <br />
+          <span class="m-2">
+            Fixo/whatsapp:
+            <a title="Telefone" href="tel:6135511006">
+              (61) 3551-1006
+            </a>
+          </span>
+          <span class="m-2">
+            Celular/whatsapp:
+            <a href="tel:61998281006">(61) 99828-1006</a>
+          </span>
+          <span class="m-2">E-mail:
+            <a href="mailto:vendas@acnacional.com?Subject=Comprar">vendas@acnacional.com</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

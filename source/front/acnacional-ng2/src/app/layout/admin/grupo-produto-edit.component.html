@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Grupo Produto</h4>
+        <h6 class="card-subtitle mb-3 text-muted">Cadastro de grupos de produto</h6>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
+          <div class="row">
+            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="codigo">Código</label>
+              <input type="text" id="codigo" name="codigo" formControlName="codigo" placeholder="Código" maxlength="20" class="form-control" [ngClass]="{'is-invalid': formErrors.codigo}" [readonly]="id" required />
+              <div class="form-control-feedback" *ngIf="formErrors.codigo">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.codigo }}
+              </div>
+              <small class="form-text text-muted">Código do grupo, deve ser único</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="ordem">Ordenação</label>
+              <input type="text" id="ordem" name="ordem" formControlName="ordem" placeholder="Ordenação" maxlength="3" class="form-control" [ngClass]="{'is-invalid': formErrors.ordem}" required />
+              <div class="form-control-feedback" *ngIf="formErrors.ordem">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.ordem }}
+              </div>
+              <small class="form-text text-muted">Ordenação do grupo, usada na listagem</small>
+            </div>
+            <div class="form-group col-md-6 col-sm-12 col-xs-12">
+              <label class="form-control-label" for="nome">Nome</label>
+              <input type="text" id="nome" name="nome" formControlName="nome" placeholder="Nome" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.nome}" required />
+              <div class="form-control-feedback" *ngIf="formErrors.nome">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.nome }}
+              </div>
+              <small class="form-text text-muted">Nome do grupo, deve ser único</small>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+              <label class="form-control-label" for="descricao">Descrição</label>
+              <textarea id="descricao" name="descricao" formControlName="descricao" placeholder="Descrição ou especificação do grupo" class="form-control" [ngClass]="{'is-invalid': formErrors.descricao}" rows="4"></textarea>
+              <div class="form-control-feedback" *ngIf="formErrors.descricao">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.descricao }}
+              </div>
+              <small class="form-text text-muted">Texto detalhado do grupo</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-12" formGroupName="tipo">
+              <label class="form-control-label" for="tipo">Tipo</label>
+              <select id="tipo" name="tipo" formControlName="id" class="form-control" (change)="onChangeTipo()" [ngClass]="{'is-invalid': formErrors['tipo.id']}" required>
+                <option *ngFor="let t of tipoList" [value]="t.id">{{t.nome}}</option>
+              </select>
+              <div class="form-control-feedback" *ngIf="formErrors['tipo.id']">
+                <span class="fa fa-alert"></span>
+                {{ formErrors['tipo.id'] }}
+              </div>
+              <small class="form-text text-muted">Tipo do produto</small>
+            </div>
+            <div class="form-group col-md-9 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="imagem">Imagem</label>
+              <input type="text" id="imagem" name="imagem" formControlName="imagem" placeholder="URL da imagem" maxlength="1000" class="form-control" [ngClass]="{'is-invalid': formErrors.imagem}" />
+              <div class="form-control-feedback" *ngIf="formErrors.imagem">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.imagem }}
+              </div>
+              <small class="form-text text-muted">Imagem que será exibida para o grupo</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-12 col-xs-12" *ngIf="id">
+              <label class="form-control-label" for="descricao">Situação</label>
+              <div class="form-check" [ngClass]="{'is-invalid': formErrors.ativo}">
+                <label class="form-check-label">
+                  <input type="checkbox" id="ativo" name="ativo" formControlName="ativo" class="form-check-input" />
+                  Ativo
+                </label>
+              </div>
+              <small class="form-text text-muted">Se está à ativo ou não</small>
+            </div>
+          </div>
+          <div class="row button-row">
+            <div class="col-md-12 text-center">
+              <a [routerLink]="['/admin/grupo-produto']" class="btn btn-warning">
+                <span class="fa fa-arrow-left"></span>
+                Voltar
+              </a>
+              <button type="submit" [disabled]="!form.valid" class="btn btn-primary">
+                <span class="fa fa-save"></span>
+                Salvar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

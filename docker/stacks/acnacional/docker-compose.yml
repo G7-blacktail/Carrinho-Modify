@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  arlidersis:
+    image: registry.lidersis.com.br/acnacional-rs:1.0.0
+    hostname: acnacional
+    ports:
+      - 8193:8193/tcp
+    environment:
+      - SWARM_NODE_ID={{.Node.ID}}
+      - SWARM_NODE_NAME={{.Node.Hostname}}
+      - SWARM_SERVICE_ID={{.Service.ID}}
+      - SWARM_SERVICE_NAME={{.Service.Name}}
+      - SWARM_TASK_ID={{.Task.ID}}
+      - SWARM_TASK_NAME={{.Task.Name}}
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 5s
+      rollback_config:
+        parallelism: 1
+        delay: 5s
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 600s
+      resources:
+        reservations:
+          cpus: '0.05'
+          memory: 256M
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+    healthcheck:
+      test: curl --silent --fail http://localhost:8193/actuator/health || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 600s

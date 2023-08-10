@@ -1,0 +1,183 @@
+<div class="container">
+  <form name="form" *ngIf="item">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Pedido</h4>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <label class="col-lg-1 col-md-2 col-form-label">Código</label>
+              <div class="col-lg-3 col-md-2">
+                <p class="form-control-plaintext">
+                  {{item.codigo}}
+                </p>
+              </div>
+              <label class="col-lg-1 col-md-2 col-form-label">Data</label>
+              <div class="col-lg-3 col-md-2">
+                <p class="form-control-plaintext">
+                  {{item.data}}
+                  {{item.hora}}
+                </p>
+              </div>
+              <label class="col-lg-1 col-md-2 col-form-label">Situação</label>
+              <div class="col-lg-3 col-md-2">
+                <p class="form-control-plaintext">
+                  <span *ngIf="item.situacao == 0" class="red-text"><del>Cancelado</del></span>
+                  <span *ngIf="item.situacao == 1" class="black-text">Pendente</span>
+                  <span *ngIf="item.situacao == 2" class="black-text">Aguardando Pagamento</span>
+                  <span *ngIf="item.situacao == 3" class="green-text">Pago</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="item.produtoList && item.produtoList.length > 0">
+            <table class="table table-sm borderless">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Quantidade</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let p of item.produtoList">
+                  <td>
+                    {{p.produto.codigo}}
+                    -
+                    {{p.produto.nome}}
+                  </td>
+                  <td>
+                    {{p.quantidade}}
+                  </td>
+                  <td>
+                    R$ {{p.valor}}
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="text-right">
+                    <strong>TOTAL</strong>
+                  </td>
+                  <td>
+                    <strong>R$ {{item.valor}}</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row" *ngIf="item.situacao == 2">
+          <div class="col-md-12 col-sm-12">
+            <div class="alert alert-warning" role="alert" *ngIf="!isNew">
+              <h4 class="alert-heading">
+                Ainda não recebemos a confirmação de pagamento deste pedido.<br />
+              </h4>
+              <p>
+                Clique no botão abaixo para efetuar o pagamento.<br />
+                Caso já tenha efetuado o pagamento há mais de 24hs,
+                entre em contado com o <a href="https://pagseguro.uol.com.br/" class="alert-link">PagSeguro</a> para solucionar possíveis problemas. <br />
+                Após receber o e-mail de confirmação do pagamento, retorne ao site da AR Lidersis para agendar seu atendimento presencial.
+              </p>
+            </div>
+            <div class="alert alert-success" role="alert" *ngIf="isNew">
+              <h4 class="alert-heading">
+                Pedido cadastrado corretamente.
+              </h4>
+              <p>
+                Ao apertar o botão <span class="text-primary font-weight-bold">Efetuar Pagamento</span> você será redirecionado para o site do <strong>PagSeguro</strong>. A confirmação do pagamento será enviada para seu e-mail.
+                <br />
+                Após o recebimento do e-mail de confirmação do pagamento, retorne à <span class="text-warning font-weight-bold">Página do Carrinho</span> para agendar seu atendimento.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row button-row">
+          <div class="col-md-12 text-center">
+            <a [routerLink]="['/privado/pedido']" class="btn btn-warning">
+              <span class="fa fa-shopping-basket"></span>
+              Ir para Meus Pedidos
+            </a>
+            <a href="javascript:void(0)" (click)="onRestore()" class="btn btn-warning" *ngIf="item.situacao == 1">
+              <span class="fa fa-shopping-cart"></span>
+              Continuar com pedido
+            </a>
+            <a title="Ir para o Pagseguro" [href]="item.urlSolicitacaoPagamento" target="_blank" class="btn btn-primary" *ngIf="item.situacao == 2">
+              <span class="fa fa-usd"></span>
+              Efetuar pagamento
+            </a>
+          </div>
+        </div>
+        <div class="row" *ngIf="item.situacao == 2">
+          <div class="col-md-12 text-center text-danger">
+            <small class="text-mutted">* Compras parceladas no cartão de crédito incidem juros do PagSeguro.</small><br />
+            <small class="text-mutted">** Pagamento no boleto incide taxa de emissão do PagSeguro.</small><br />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>&nbsp;</div>
+    <div class="card" *ngIf="item.situacao == 3">
+      <div class="card-body">
+        <h4 class="card-title">Agendamento</h4>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-sm borderless">
+              <thead>
+                <tr>
+                  <th>Ação</th>
+                  <th>Voucher</th>
+                  <th>Produto</th>
+                  <th>Situação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let v of item.voucherList">
+                  <td>
+                    <a title="Agendar" [routerLink]="['/privado/pedido', item.id, 'voucher', v.id, 'agendamento-edit']" [queryParams]="{back: 'pedido'}" *ngIf="isAgendavel(v) && v.ativo">
+                      <span class="fa fa-calendar"></span>
+                      Agendar
+                    </a>
+                  </td>
+                  <td>
+                    {{v.codigo}}
+                  </td>
+                  <td>
+                    {{v.produto.nome}}
+                  </td>
+                  <td>
+                    <span *ngIf="isAgendavel(v) && v.ativo && !v.horarioPosto" class="text-success">
+                      Sem agendamento
+                    </span>
+                    <span *ngIf="isAgendavel(v) && v.ativo && v.horarioPosto">
+                      Agendado para
+                      {{v.horarioPosto.data}}
+                      às
+                      {{v.horarioPosto.horario.inicio}}
+                      na
+                      {{v.horarioPosto.posto.nome}}<br />
+                      <small>
+                        {{v.horarioPosto.posto.endereco}}
+                        {{v.horarioPosto.posto.numero}}
+                        {{v.horarioPosto.posto.complemento}}
+                        -
+                        {{v.horarioPosto.posto.municipio.nome}}
+                        /
+                        {{v.horarioPosto.posto.uf.codigo}}
+                        <br />
+                        {{v.horarioPosto.posto.email}}
+                        &nbsp;|&nbsp;
+                        {{v.horarioPosto.posto.telefone}}
+                      </small>
+                    </span>
+                    <span *ngIf="!isAgendavel(v) && v.ativo" class="text-success">Não há necessidade de agendamento para retirar este produto</span>
+                    <span *ngIf="!v.ativo" class="text-danger">Usado</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <small class="text-muted">* Clique no calendário para agendar seu voucher</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

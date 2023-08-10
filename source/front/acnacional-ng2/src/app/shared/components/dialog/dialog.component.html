@@ -1,0 +1,14 @@
+<div class="modal-header bg-{{type}}" >
+  <h4 class="modal-title text-white">{{ title }}</h4>
+  <button type="button" class="close text-white" aria-label="Close" (click)="activeModal.dismiss('Close')" *ngIf="closeable">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p *ngFor="let message of messages">
+    <strong>{{ message }}</strong>
+  </p>
+</div>
+<div class="modal-footer" *ngIf="closeable">
+  <button type="button" class="btn btn-{{type}}" (click)="activeModal.close('Close')">Fechar</button>
+</div>

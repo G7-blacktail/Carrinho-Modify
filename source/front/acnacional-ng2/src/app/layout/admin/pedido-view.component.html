@@ -1,0 +1,155 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Pedidos</h4>
+      <h6 class="card-subtitle mb-3 text-muted">Detalhe do pedido</h6>
+      <form name="form" *ngIf="item">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label">Código</label>
+              <div class="col-md-4">
+                <p class="form-control-plaintext">
+                  {{item.codigo}}
+                </p>
+              </div>
+              <label class="col-md-2 col-form-label">Data</label>
+              <div class="col-md-4">
+                <p class="form-control-plaintext">
+                  {{item.data}}
+                  {{item.hora}}
+                </p>
+              </div>
+              <label class="col-md-2 col-form-label">Valor</label>
+              <div class="col-md-4">
+                <p class="form-control-plaintext">
+                  R$ {{item.valor}}
+                </p>
+              </div>
+              <label class="col-md-2 col-form-label">Situação</label>
+              <div class="col-md-4">
+                <p class="form-control-plaintext">
+                  <span *ngIf="item.situacao == 0" class="red-text"><del>Cancelado</del></span>
+                  <span *ngIf="item.situacao == 1" class="black-text">Pendente</span>
+                  <span *ngIf="item.situacao == 2" class="black-text">Aguardando Pagamento</span>
+                  <span *ngIf="item.situacao == 3" class="green-text">Pago</span>
+                </p>
+              </div>
+              <label class="col-md-2 col-form-label">Solicitação Pagamento</label>
+              <div class="col-md-4">
+                <p class="form-control-plaintext">
+                  {{item.codigoSolicitacaoPagamento}}
+                </p>
+              </div>
+              <label class="col-md-2 col-form-label">Transação Pagamento</label>
+              <div class="col-md-4">
+                <p class="form-control-plaintext">
+                  {{item.codigoTransacaoPagamento}}
+                </p>
+              </div>
+              <label class="col-md-2 col-form-label">Posto</label>
+              <div class="col-md-4">
+                <p class="form-control-plaintext">
+                  {{item.posto.codigo}}
+                  -
+                  {{item.posto.nome}}
+                </p>
+              </div>
+              <label class="col-md-2 col-form-label">Convênio</label>
+              <div class="col-md-4">
+                <p class="form-control-plaintext">
+                  {{item.convenio?.codigo}}
+                  -
+                  {{item.convenio?.nome}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <h5 class="text-center">Produtos</h5>
+            <table class="table table-sm borderless">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Quantidade</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let p of item.produtoList">
+                  <td>
+                    {{p.produto.nome}}
+                  </td>
+                  <td>
+                    {{p.quantidade}}
+                  </td>
+                  <td>
+                    R$ {{p.valor}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6 col-sm-12" *ngIf="item.situacao == 3">
+            <h5 class="text-center">Vouchers</h5>
+            <table class="table table-sm borderless">
+              <thead>
+                <tr>
+                  <th>Ação</th>
+                  <th>Produto</th>
+                  <th>Situação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let v of voucherList">
+                  <td>
+                    <a title="Confirmar atendimento" href="javascript:void(0)" (click)="onConfirmVoucher(v)" *ngIf="v.ativo">
+                      <span class="fa fa-check"></span>
+                    </a>
+                  </td>
+                  <td>
+                    {{v.produto.nome}}
+                  </td>
+                  <td>
+                    <span *ngIf="isAgendavel(v) && v.ativo && !v.horarioPosto" class="text-success">
+                      Sem agendamento
+                    </span>
+                    <span *ngIf="isAgendavel(v) && v.ativo && v.horarioPosto" class="text-success">
+                      Agendado para
+                      {{v.horarioPosto.data}}
+                      às
+                      {{v.horarioPosto.horario.inicio}}
+                    </span>
+                    <span *ngIf="!isAgendavel(v) && v.ativo" class="text-success">
+                      Não necessita de agendamento
+                    </span>
+                    <span *ngIf="!v.ativo" class="text-danger">
+                      Usado
+                    </span>
+                    <a href="javascript:void(0)" class="text-danger" *ngIf="!v.ativo" triggers="mouseenter:mouseleave" popoverTitle="Confirmado por {{v.usuarioConfirmacao?.nome}}" ngbPopover="Data: {{v.dataConfirmacao}} Hora: {{v.horaConfirmacao}}" >
+                      <span class="fa fa-question-circle-o"></span>
+                    </a>
+                    <a href="javascript:void(0)" class="text-success" *ngIf="v.ativo && v.preCadastro" (click)="onClickPreCadastro(v)" >
+                      <span class="fa fa-info"></span>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row button-row">
+          <div class="col-md-12 text-center">
+            <a [routerLink]="['/admin/pedido']" class="btn btn-warning">
+              <span class="fa fa-arrow-left"></span>
+              Voltar
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

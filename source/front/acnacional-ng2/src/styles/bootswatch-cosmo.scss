@@ -1,0 +1,235 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  font-size: 14px;
+  height:100%;
+  margin: 0px;
+  padding: 0px;
+  padding-bottom: 45px;
+  /*padding-top: 70px;*/
+}
+
+footer {
+  bottom: 0;
+  height: 40px;
+  padding: 10px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+footer > div {
+  float: none;
+  margin: 0px;
+  font-size: 12px;
+  z-index: -9999;
+}
+
+a.pointer:hover {
+  text-decoration: underline !important;
+}
+
+div.page-title {
+  text-align: right;
+}
+
+iframe.docviewer {
+  display: block;
+  margin: auto;
+  width: 95%;
+}
+
+@media only screen and (max-width: 600px) {
+  iframe.docviewer {
+    height: 250px;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  iframe.docviewer {
+    height: 300px;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  iframe.docviewer {
+    height: 450px;
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  iframe.docviewer {
+    height: 600px;
+  }
+}
+.navbar .dropdown-menu {
+  position: absolute;
+}
+
+a.pointer {
+  color: #2780E3 !important;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+h1.page-title,
+h2.page-title,
+h3.page-title,
+h4.page-title,
+h5.page-title,
+h6.page-title {
+  color: #2780E3;
+  font-style: italic;
+  font-weight: bold;
+  text-align: right;
+}
+
+div.page-title > span {
+  color: #2780E3;
+  font-style: italic;
+  font-weight: bold;
+}
+
+label {
+  font-weight: bold;
+}
+
+label.label-sx {
+  font-size: 14px;
+}
+
+label.label-sm {
+  font-size: 16px;
+}
+
+label.label-md {
+  font-size: 18px;
+}
+
+label.label-lg {
+  font-size: 20px;
+}
+
+textarea,
+textarea.form-control,
+input.form-control,
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+[type=text].form-control,
+[type=password].form-control,
+[type=email].form-control,
+[type=tel].form-control,
+[contenteditable].form-control {
+  font-size: 14px;
+}
+
+.btn {
+  cursor: pointer;
+  margin: 5px;
+}
+
+.btn-group {
+  margin: 5px;
+}
+
+.input-group-btn > .btn, .btn-group > .btn {
+  margin: 0px !important;
+}
+
+.text-overflow, .form-control-static {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a.navbar-brand,
+a.navbar-brand:active,
+a.navbar-brand:focus,
+a.navbar-brand:hover,
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-nav .nav-link:active,
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-nav > .nav-item > a,
+.navbar-nav > .nav-item > a:active,
+.navbar-nav > .nav-item > a:focus,
+.navbar-nav > .nav-item > a:hover,
+.navbar-dark .navbar-text {
+  color: #fff;
+}
+
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-nav .nav-link:active,
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-dark .navbar-nav .nav-link:hover {
+  cursor: pointer;
+}
+
+.navbar-dark .navbar-toggler {
+  color: #fff;
+  border-color: #fff;
+}
+
+.button-row {
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+}
+
+ul.pagination {
+  justify-content: center !important;
+  -ms-flex-pack: center !important;
+  -webkit-box-pack: center !important;
+}
+
+.custom-file {
+  width: 100%;
+}
+
+.main {
+  padding: 10px;
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+
+@media (max-width: 575px) {
+  .container {
+    padding-right: 1px !important;
+    padding-left: 1px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding-right: 1px !important;
+    padding-left: 1px !important;
+  }
+}
+
+div.loadingApp {
+  background-color: #fff;
+}
+
+div.loadingAppBackground {
+  background-color: #2780E3;
+  height: 70px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+div.loadingAppPanel {
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2);
+}

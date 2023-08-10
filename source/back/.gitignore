@@ -1,0 +1,9 @@
+**target/
+**.checkstyle
+**.classpath
+**.externalToolBuilders/
+**.project
+**.settings/
+**.svn/
+**.tern-project
+**nb-configuration/

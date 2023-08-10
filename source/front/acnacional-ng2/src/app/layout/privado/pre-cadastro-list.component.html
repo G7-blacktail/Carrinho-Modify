@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Pré Cadastro</h4>
+        <h6 class="card-subtitle mb-3 text-muted">Listagem dos meus cadastros</h6>
+        <form role="form" name="form">
+          <div class="table-responsive" *ngIf="page && page.content && page.totalElements > 0">
+            <table class="table table-sm table-hover">
+              <caption>Resultado da pesquisa ({{page.totalElements}})</caption>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of page.content">
+                  <td>
+                    <a title="Visualizar" [routerLink]="['/privado/pre-cadastro-pf/edit', item.id]" *ngIf="item.tipo == 1">
+                      {{item.nomeResp}}
+                    </a>
+                    <a title="Visualizar" [routerLink]="['/privado/pre-cadastro-pj/edit', item.id]" *ngIf="item.tipo == 2">
+                      {{item.nomeEmpresarial}}
+                    </a>
+                  </td>
+                  <td>
+                    {{item.tipo == 1 ? 'PF' : 'PJ'}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div>
+              <ngb-pagination [collectionSize]="page.totalElements" [(page)]="pageNumber" [pageSize]="pageSize" size="sm" [boundaryLinks]="true" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
+            </div>
+          </div>
+          <div class="container" *ngIf="page && page.content && page.totalElements == 0">
+            <div class="text-warning">
+              <strong>Nenhum registro encontrado</strong>
+            </div>
+          </div>
+          <div class="row button-row">
+            <div class="col-md-12">
+              <a title="Novo" [routerLink]="['/privado/pre-cadastro/new']">
+                <span class="fa fa-plus" aria-hidden="true"></span>
+                Novo
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

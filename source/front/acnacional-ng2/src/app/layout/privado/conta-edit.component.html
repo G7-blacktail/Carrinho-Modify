@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Meus Dados</h4>
+      <h6 class="card-subtitle mb-3 text-muted">Alteração dos Meus Dados</h6>
+      <form role="form" name="form">
+        <div class="row">
+          <div class="form-group col-md-6 col-xs-12">
+            <label class="form-control-label" for="email">E-mail</label>
+            <input type="email" id="email" name="email" class="form-control" [(ngModel)]="email" [disabled]="true" />
+          </div>
+          <div class="form-group col-md-6 col-xs-12">
+            <label class="form-control-label" for="nome">Nome Completo</label>
+            <input type="text" id="nome" name="nome" class="form-control" [(ngModel)]="nome" [disabled]="executing" maxlength="100" required />
+          </div>
+          <div class="form-group col-md-3 col-sm-6 col-xs-12">
+            <label class="form-control-label" for="cpf">CPF</label>
+            <input type="text" id="cpf" name="cpf" [(ngModel)]="cpf" maxlength="14" class="form-control" [textMask]="{mask: cpfMask, guide: false}" />
+          </div>
+          <div class="form-group col-md-3 col-sm-6 col-xs-12">
+            <label class="form-control-label" for="dataNascimento">Data Nascimento</label>
+            <input type="text" id="dataNascimento" name="dataNascimento" [(ngModel)]="dataNascimento" placeholder="Data de nascimento" maxlength="10" class="form-control" [textMask]="{mask: dataMask, guide: false}" />
+          </div>
+          <div class="form-group col-md-3 col-sm-6 col-xs-12">
+            <label class="form-control-label" for="telefone">Telefone</label>
+            <input type="text" id="telefone" name="telefone" [(ngModel)]="telefone" placeholder="Telefone" maxlength="20" class="form-control" />
+          </div>
+        </div>
+        <hr />
+        <h6 class="card-subtitle mb-3 text-muted">Alteração de senha(Opcional)</h6>
+        <div class="row">
+          <div class="form-group col-md-3 col-sm-6 col-xs-12">
+            <label class="form-control-label" for="senhaAtual">Senha Atual</label>
+            <input type="password" id="senhaAtual" name="senhaAtual" class="form-control" [(ngModel)]="senhaAtual" [disabled]="executing" maxlength="20" />
+          </div>
+          <div class="form-group col-md-3 col-sm-6 col-xs-12">
+            <label class="form-control-label" for="novaSenha">Nova Senha</label>
+            <input type="password" id="novaSenha" name="novaSenha" class="form-control" [(ngModel)]="novaSenha" [disabled]="executing" maxlength="20" />
+          </div>
+          <div class="form-group col-md-3 col-sm-6 col-xs-12">
+            <label class="form-control-label" for="confirmacaoSenha">Confirmação da Senha</label>
+            <input type="password" id="confirmacaoSenha" name="confirmacaoSenha" class="form-control" [(ngModel)]="confirmacaoSenha" [disabled]="executing" maxlength="20" />
+          </div>
+        </div>
+        <div class="row button-row">
+          <div class="col-md-12 text-danger">
+            * Caso a senha não seja preenchida a mesma NÃO será atualizada!!!
+          </div>
+        </div>
+        <div class="row button-row">
+          <div class="col-md-12 text-center">
+            <button type="button" (click)="save()" [disabled]="executing" class="btn btn-primary">
+              <span class="fa fa-save"></span>
+              Alterar
+            </button>
+          </div>
+        </div>
+        <div class="row" *ngIf="executing">
+          <div class="col-md-12 text-center font-weight-bold">
+            <h4 class="ar-loading">Processando...</h4>
+          </div>
+        </div>
+        <div class="row" *ngIf="error">
+          <div class="col-md-12 text-center">
+            <div class="text-danger h5">
+              <span class="fa fa-exclamation-circle"></span>
+              {{errorMessage}}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

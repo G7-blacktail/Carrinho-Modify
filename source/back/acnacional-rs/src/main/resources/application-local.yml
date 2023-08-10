@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:13306/acnacional_dev?useUnicode=true&characterEncoding=utf8mb4
+    username: acnacional_dev
+  devtools:
+    restart:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+  redis:
+    host: localhost
+    port: 16379
+    
+debug: false
+    
+certificadoranacional:
+  ac:
+    pagseguro:
+      email: lourival.sabino.junior@gmail.com
+      token: 5418C186C65646169DBA9624B32F8BA7
+      env: SANDBOX
+      
+server:
+  port: 18193

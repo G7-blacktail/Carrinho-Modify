@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="default">
+<head>
+  <title>iAuth</title>
+</head>
+<body>
+  <th:block layout:fragment="content">
+    <div class="row mt-4">
+      <div class="col-sm-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4">
+        <h1 th:text="${title}"></h1>
+        <div th:text="${content}"></div>
+      </div>
+    </div>
+  </th:block>
+</body>
+</html>

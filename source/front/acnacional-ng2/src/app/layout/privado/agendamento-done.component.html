@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Agendamento</h4>
+      <h6 class="card-subtitle mb-3 text-muted">3 - Finalizado</h6>
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">
+              Agendamento concluído corretamente.
+            </h4>
+            <p>
+              Será enviado um e-mail com os dados do agendamento.
+            </p>
+          </div>          
+        </div>
+      </div>
+      <div class="row button-row" *ngIf="item">
+        <div class="col-md-12 text-center">
+          <a [routerLink]="['/privado/voucher']" class="btn btn-warning" *ngIf="back == 'voucher'">
+            <span class="fa fa-shopping-basket"></span>
+            Voltar para a agenda
+          </a>
+          <a [routerLink]="['/privado/pedido/view', item.pedido.id]" class="btn btn-warning" *ngIf="back == 'pedido'">
+            <span class="fa fa-shopping-basket"></span>
+            Voltar para o Pedido
+          </a>
+      </div>
+    </div>
+  </div>
+</div>

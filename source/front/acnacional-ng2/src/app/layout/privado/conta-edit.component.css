@@ -1,0 +1,33 @@
+.ar-loading {
+  -webkit-animation: ar-loading-color-change 1s infinite;
+  -moz-animation: ar-loading-color-change 1s infinite;
+  -o-animation: ar-loading-color-change 1s infinite;
+  -ms-animation: ar-loading-color-change 1s infinite;
+  animation: ar-loading-color-change 1s infinite;
+}
+
+@-webkit-keyframes ar-loading-color-change {
+  0% { color: white; }
+  50% { color: gray; }
+  100% { color: black; }
+}
+@-moz-keyframes ar-loading-color-change {
+  0% { color: white; }
+  50% { color: gray; }
+  100% { color: black; }
+}
+@-ms-keyframes ar-loading-color-change {
+  0% { color: white; }
+  50% { color: gray; }
+  100% { color: black; }
+}
+@-o-keyframes ar-loading-color-change {
+  0% { color: white; }
+  50% { color: gray; }
+  100% { color: black; }
+}
+@keyframes ar-loading-color-change {
+  0% { color: white; }
+  50% { color: gray; }
+  100% { color: black; }
+}

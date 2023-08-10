@@ -1,0 +1,132 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Agendamento</h4>
+      <h6 class="card-subtitle mb-3 text-muted">1 - Selecione o local e data de atendimento</h6>
+      <form name="form" *ngIf="item">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label">Produto:</label>
+              <div class="col-md-4">
+                <p class="form-control-plaintext">
+                  {{item?.produto.nome}}
+                </p>
+              </div>
+              <label class="col-md-2 col-form-label">Agendamento atual:</label>
+              <div class="col-md-4">
+                <p class="form-control-plaintext" *ngIf="item.horarioPosto">
+                  {{item.horarioPosto.data}}
+                  {{item.horarioPosto.horario.inicio}}
+                  -
+                  {{item.horarioPosto.posto.nome}}
+                </p>
+                <p class="form-control-plaintext text-danger" *ngIf="!item.horarioPosto">
+                  NÃO AGENDADO
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-3 col-sm-6 col-xs-12" *ngIf="ufList?.length > 1">
+            <label class="form-control-label" for="uf">UF</label>
+            <select class="form-control" id="uf" name="uf" ([ngModel])="uf" (change)="onChangeUf($event.target.value)" required>
+              <option *ngFor="let u of ufList" [value]="u.id" [selected]="u.id == uf">{{u.nome}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3 col-sm-6 col-xs-12" *ngIf="municipioList?.length > 1">
+            <label class="form-control-label" for="municipio">Município</label>
+            <select class="form-control" id="municipio" name="municipio" ([ngModel])="municipio" (change)="onChangeMunicipio($event.target.value)" required>
+              <option *ngFor="let m of municipioList" [value]="m.id" [selected]="m.id == municipio">{{m.nome}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3 col-sm-6 col-xs-12" *ngIf="postoList?.length > 1">
+            <label class="form-control-label" for="posto">Posto de Atendimento</label>
+            <select class="form-control" id="posto" name="posto" ([ngModel])="posto" (change)="onChangePosto($event.target.value)" required>
+              <option *ngFor="let p of postoList" [value]="p.id" [selected]="p.id == posto">{{p.nome}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3 col-sm-6 col-xs-12">
+            <label class="form-control-label" for="data">Data Desejada</label>
+            <div class="input-group">
+              <input class="form-control" id="data" name="data" [(ngModel)]="dataModel" (ngModelChange)="onDateChange($event)" ngbDatepicker #d="ngbDatepicker"
+                     [minDate]="minDate" [maxDate]="maxDate" [markDisabled]="isDisabled" [outsideDays]="'hidden'" [firstDayOfWeek]="7" placeholder="DD/MM/AAAA" readonly="readonly">
+              <div class="input-group-append">
+                <button class="btn btn-secondary" (click)="d.toggle()" type="button">
+                  <span class="fa fa-calendar"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row button-row">
+          <div class="col-md-12 text-center">
+            <a [routerLink]="['/privado/voucher']" class="btn btn-warning" *ngIf="back == 'voucher'">
+              <span class="fa fa-shopping-basket"></span>
+              Voltar
+            </a>
+            <a [routerLink]="['/privado/pedido/view', item.pedido.id]" class="btn btn-warning" *ngIf="back == 'pedido'">
+              <span class="fa fa-shopping-basket"></span>
+              Voltar
+            </a>
+            <button class="btn btn-primary" (click)="onSubmit()" [disabled]="!horario">
+              <span class="fa fa-arrow-right"></span>
+              Continuar
+            </button>
+          </div>
+        </div>
+        <div class="row" *ngIf="item.horarioPosto && !item.preCadastro">
+          <div class="col-md-12">
+            <div class="alert alert-warning" role="alert">
+              <strong>
+                <span class="fa fa-exclamation-triangle"></span>
+                Atenção:
+              </strong>
+              Para agilizar o atendimento você pode preencher o pré-cadastro informando os dados que serão usados na emissão deste certificado.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-12 col-sm-12 col-xs-12" *ngIf="data">
+            <hr />
+            <h6 class="text-center" *ngIf="!horarioLoading && horarioList && horarioList.length > 0">Horários encontrados para o dia {{data}}</h6>
+            <table class="table table-sm" *ngIf="horarioList && horarioList.length > 0">
+              <tbody>
+                <tr *ngFor="let h of horarioList; let i = index" [ngClass]="{'table-success': h.id == horario, 'table-warning': !h.disponivel && h.id != horario}">
+                  <td style="width: 40px;">
+                    {{i + 1}}
+                  </td>
+                  <td style="width: 120px;">
+                    {{h.horario.descricao}}
+                  </td>
+                  <td>
+                    <span *ngIf="h.id == horario">
+                      <span class="fa fa-check"></span>
+                      Selecionado
+                    </span>
+                    <span *ngIf="!h.disponivel && h.id != horario && ((!item.horarioPosto) || (item.horarioPosto && h.id != item.horarioPosto.id))">
+                      <span class="fa fa-ban"></span>
+                      Reservado
+                    </span>
+                    <a title="Selecionar" href="javascript:void(0)" (click)="onSelectHorario(h)" *ngIf="!h.disponivel && h.id != horario && (item.horarioPosto && h.id == item.horarioPosto.id)">Reserva atual</a>
+                    <a title="Selecionar" href="javascript:void(0)" (click)="onSelectHorario(h)" *ngIf="h.disponivel && h.id != horario">Disponível</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="col-sm-12" *ngIf="data && horarioLoading">
+              <h6 class="text-center">Atualizando horários para o dia {{data}}</h6>
+            </div>
+            <div class="col-sm-12" *ngIf="data && !horarioLoading && (!horarioList || horarioList.length == 0)">
+              <div class="alert alert-warning" role="alert">
+                <strong>Nenhum horário encontrado para o dia {{data}}.</strong><br />
+                A agenda dos postos de atendimento é liberada apenas com 30 dias de antecedência. Verifique se não selecionou um fim de semana ou uma data superior à 30 dias.
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

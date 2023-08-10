@@ -1,0 +1,162 @@
+debug: false
+
+certificadoranacional:
+  ac:
+    pagseguro:
+      email: administrativo@lidersis.com.br
+      token: 04AE699E8D294398A32F28C2D21679D1
+      env: PRODUCTION
+    schedule:
+      enabled: true
+    store:
+      type: s3
+      fs:
+        directory: /tmp
+      s3:
+        bucket: bucket1.us-west.arlidersis.lidersis.com.br
+        profile: arlidersis
+        region: us-west-1
+
+logging:
+  level:
+    root: warn
+    '[br.com.uol.pagseguro]': error
+    '[com.certificadoranacional.ac]': info
+    '[org.apache.http.client]': error
+    '[org.apache.pdfbox]': error
+    '[org.hibernate]': error
+    '[org.springframework]': warn
+    '[org.springframework.security]': warn
+    '[org.springframework.web]': warn
+    
+management:
+  endpoints:
+    web:
+      exposure:
+       include: health,prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+
+security:
+  oauth2:
+    resource:
+      #token-info-uri: https://login.certificadoranacional.com/auth/realms/acnacional/protocol/openid-connect/token
+      #user-info-uri: https://login.certificadoranacional.com/auth/realms/acnacional/protocol/openid-connect/userinfo
+      #jwk:
+      #  key-set-uri: https://login.certificadoranacional.com/auth/realms/acnacional/protocol/openid-connect/certs
+      token-info-uri: https://login.lidersis.com.br/auth/realms/acnacional/protocol/openid-connect/token
+      user-info-uri: https://login.lidersis.com.br/auth/realms/acnacional/protocol/openid-connect/userinfo
+      jwk:
+        key-set-uri: https://login.lidersis.com.br/auth/realms/acnacional/protocol/openid-connect/certs
+   
+server:
+  port: 8193
+  servlet:
+    application-display-name: acnacional-web
+    context-path: /
+    register-default-servlet: true    session:      tracking-modes:      - cookie
+    shutdown: graceful
+  tomcat:
+    protocol-header-https-value: https
+    protocol-header: X-Forwarded-Proto
+    port-header: X-Forwarded-Port 
+  use-forward-headers: true  
+    
+spring:
+  application:
+    name: acnacional-web
+  aop:
+    proxy-target-class: true
+  batch:
+    job:
+      enabled: false
+  cache:
+    cache-names:
+      - acnacional_principal
+    type: redis
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    jmx-enabled: false
+    password: AcNacional@2020
+    url: jdbc:mariadb://mariadb.lidersis.aws:3306/acnacional?useUnicode=true&characterEncoding=utf8mb4
+    username: acnacional
+    hikari:
+      auto-commit: false
+      connection-init-sql: SELECT 1
+      connection-test-query: SELECT 1
+      connection-timeout: 15000
+      idle-timeout: 15000
+      max-lifetime: 60000
+      maximum-pool-size: 8
+      minimum-idle: 2
+      validation-timeout: 15000
+  devtools:
+    restart:
+      enabled: false
+  jackson:
+    date-format: dd/MM/yyyy
+  jmx:
+    default-domain: acnacional-web
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        #implicit-strategy: com.certificadoranacional.ac.jpa.util.AcNamingStrategy
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    open-in-view: true
+    properties:
+      '[hibernate.dialect]': org.hibernate.dialect.MySQL5Dialect
+      '[hibernate.format_sql]': true
+      '[hibernate.generate_statistics]': false
+      '[hibernate.use_sql_comments]': false
+      '[javax.persistence.lock.timeout]': 15
+    show-sql: false
+  mail:
+    default-encoding: UTF-8
+    host: email-smtp.us-west-2.amazonaws.com
+    password: 'BFt0PxEiAKwImwoQNJi+qNgWPp9kEGS2eQgyP+aWYkZg'
+    port: 587
+    properties:
+      '[mail.debug]': false
+      '[mail.smtp.auth]': true
+      '[mail.smtp.ssl.trust]': email-smtp.us-west-2.amazonaws.com
+      '[mail.smtp.startssl.enable]': true
+      '[mail.smtp.starttls.required]': true
+    username: AKIARSF7XRJRGMDQVHD5
+  redis:
+    database: 7
+    host: redis.lidersis.aws
+    ssl: false
+    port: 16379
+    timeout: 60000
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 2
+        max-wait: 15000
+        min-idle: 1
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          #issuer-uri: https://login.certificadoranacional.com/auth/realms/acnacional
+          #jwk-set-uri: https://login.certificadoranacional.com/auth/realms/acnacional/protocol/openid-connect/certs
+          issuer-uri: https://login.lidersis.com.br/auth/realms/acnacional
+          jwk-set-uri: https://login.lidersis.com.br/auth/realms/acnacional/protocol/openid-connect/certs
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      max-file-size: 32MB
+      max-request-size: 64MB 
+  session:
+    store-type: redis
+  transaction:
+    default-timeout: 120

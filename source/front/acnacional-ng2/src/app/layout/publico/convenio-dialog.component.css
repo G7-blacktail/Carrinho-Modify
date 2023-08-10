@@ -1,0 +1,7 @@
+pre.item-text {
+  display: flex;
+  font-family: inherit;
+  text-align: justify;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

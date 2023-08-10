@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Agenda</h4>
+      <h6 class="card-subtitle mb-3 text-muted">Agenda dos postos de atendimento</h6>
+      <form role="form" name="form">
+        <div *ngIf="items && items.length > 0">
+          <div class="row">
+            <div class="col-md-12">
+              &nbsp;
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h6>Selecione o posto que deseja visualizar a agenda</h6>
+            </div>
+          </div>
+          <div *ngFor="let item of items" class="row">
+            <div class="col-md-12">
+              <a [routerLink]="['/admin/agenda', item.id]">
+                <span class="fa fa-calendar"></span>
+                {{item.codigo}}
+                -
+                {{item.nome}}
+              </a>
+              <br />
+              <small class="text-mutted">
+                &nbsp;&nbsp;&nbsp;
+                {{ item.responsavel }}
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="container" *ngIf="items && items.length == 0">
+          <div class="text-warning">
+            <strong>Nenhum posto encontrado</strong>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

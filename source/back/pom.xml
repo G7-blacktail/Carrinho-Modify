@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.certificadoranacional</groupId>
+  <artifactId>acnacional-parent</artifactId>
+  <version>1.0.2-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>AC Nacional - Parent</name>
+  <description>AC Nacional</description>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.6.3</version>
+    <relativePath />
+  </parent>
+
+  <properties>
+    <!-- Encoding -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- Libs -->
+    <aws.version>1.12.151</aws.version>
+    <guava.version>31.0.1-jre</guava.version>
+    <java.version>11</java.version>
+    <pagseguro.version>4.3.2</pagseguro.version>
+    <spring-cloud.version>2021.0.0</spring-cloud.version>
+    <!-- Plugins -->
+    <plugin.docker.version>0.38.1</plugin.docker.version>
+    <!-- Docker -->
+    <docker.registry>registry.lidersis.com.br</docker.registry>
+    <docker.repository>${project.artifactId}:${project.version}</docker.repository>
+    <docker.fileName>Dockerfile</docker.fileName>
+    <docker.skip>true</docker.skip>
+    <docker.port>8193</docker.port>
+  </properties>
+
+  <modules>
+    <module>acnacional-core</module>
+    <module>acnacional-rs</module>
+  </modules>
+
+  <distributionManagement>
+    <repository>
+      <id>lidersis</id>
+      <name>Lidersis</name>
+      <url>http://maven.woodstock.net.br/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>lidersis</id>
+      <name>Lidersis</name>
+      <url>http://maven.woodstock.net.br/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>io.fabric8</groupId>
+          <artifactId>docker-maven-plugin</artifactId>
+          <version>${plugin.docker.version}</version>
+          <configuration>
+            <registry>${docker.registry}</registry>
+            <useColor>true</useColor>
+            <verbose>true</verbose>
+            <skip>${docker.skip}</skip>
+            <images>
+              <image>
+                <name>${docker.registry}/${docker.repository}</name>
+                <build>
+                  <from>docker.io/adoptopenjdk:11-openj9</from>
+                  <assembly>
+                    <descriptorRef>artifact</descriptorRef>
+                  </assembly>
+                  <cmd>
+                    java -jar -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom maven/${project.artifactId}-${project.version}.jar
+                  </cmd>
+                  <ports>
+                    <port>${docker.port}</port>
+                  </ports>
+                  <tags>
+                    <tag>${project.version}</tag>
+                    <tag>latest</tag>
+                  </tags>
+                </build>
+              </image>
+            </images>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.certificadoranacional</groupId>
+        <artifactId>acnacional-core</artifactId>
+        <version>${project.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.certificadoranacional</groupId>
+        <artifactId>acnacional-rs</artifactId>
+        <version>${project.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>br.com.uol.pagseguro</groupId>
+        <artifactId>pagseguro-api</artifactId>
+        <version>${pagseguro.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.amazonaws</groupId>
+        <artifactId>aws-java-sdk-s3</artifactId>
+        <version>${aws.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

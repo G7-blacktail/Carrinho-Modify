@@ -1,0 +1,174 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Agendamento</h4>
+      <h6 class="card-subtitle mb-3 text-muted">2 - Informe os Dados do Títular do Certificado</h6>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
+        <fieldset>
+          <legend class="h4">Local</legend>
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label">Produto:</label>
+                <div class="col-md-4">
+                  <p class="form-control-plaintext">
+                    {{voucher?.produto.nome}}
+                  </p>
+                </div>
+                <label class="col-md-2 col-form-label">Agendamento:</label>
+                <div class="col-md-4">
+                  <p class="form-control-plaintext">
+                    {{voucher?.horarioPosto.data}}
+                    {{voucher?.horarioPosto.horario.inicio}}
+                    -
+                    {{voucher?.horarioPosto.posto.nome}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="h4">Dados da Empresa</legend>
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-12 col-xs-12">
+              <label class="form-control-label" for="nomeEmpresarial">Nome Empresarial</label>
+              <input type="text" id="nomeEmpresarial" name="nomeEmpresarial" formControlName="nomeEmpresarial" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.nomeEmpresarial}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="cnpj">CNPJ</label>
+              <input type="text" id="cnpj" name="cnpj" formControlName="cnpj" maxlength="14" class="form-control" [ngClass]="{'is-invalid': formErrors.cnpj}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="inssCeiPj">CEI (INSS)</label>
+              <input type="text" id="inssCeiPj" name="inssCeiPj" formControlName="inssCeiPj" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.inssCeiPj}" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="municipioEmpresa">Município</label>
+              <input type="text" id="municipioEmpresa" name="municipioEmpresa" formControlName="municipioEmpresa" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.municipioEmpresa}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="ufEmpresa">UF</label>
+              <select id="ufEmpresa" name="ufEmpresa" formControlName="ufEmpresa" class="form-control">
+                <option *ngFor="let u of ufList" [value]="u.codigo">{{u.nome}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-12 col-xs-12">
+              <label class="form-control-label" for="nomeRepresentanteLegal">Nome Representante</label>
+              <input type="text" id="nomeRepresentanteLegal" name="nomeRepresentanteLegal" formControlName="nomeRepresentanteLegal" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.nomeRepresentanteLegal}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="dataNascimentoRepresentanteLegal">Data Nascimento Representante</label>
+              <input type="text" id="dataNascimentoRepresentanteLegal" name="dataNascimentoRepresentanteLegal" formControlName="dataNascimentoRepresentanteLegal" maxlength="10" class="form-control" [ngClass]="{'is-invalid': formErrors.dataNascimentoRepresentanteLegal}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="cpfRepresentanteLegal">CPF Representante</label>
+              <input type="text" id="cpfRepresentanteLegal" name="cpfRepresentanteLegal" formControlName="cpfRepresentanteLegal" maxlength="11" class="form-control" [ngClass]="{'is-invalid': formErrors.cpfRepresentanteLegal}" />
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="h4">Dados do Responsável</legend>
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-12 col-xs-12">
+              <label class="form-control-label required" for="nomeResp">Nome</label>
+              <input type="text" id="nomeResp" name="nomeResp" formControlName="nomeResp" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.nomeResp}" required />
+            </div>
+            <div class="form-group col-md-6 col-sm-12 col-xs-12">
+              <label class="form-control-label required" for="emailResp">E-mail</label>
+              <input type="text" id="emailResp" name="emailResp" formControlName="emailResp" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.emailResp}" required />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label required" for="telefonePrincipal">Telefone</label>
+              <input type="text" id="telefonePrincipal" name="telefonePrincipal" formControlName="telefonePrincipal" maxlength="20" class="form-control" [ngClass]="{'is-invalid': formErrors.telefonePrincipal}" required />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="dataNascimentoResp">Data Nascimento</label>
+              <input type="text" id="dataNascimentoResp" name="dataNascimentoResp" formControlName="dataNascimentoResp" maxlength="10" class="form-control" [ngClass]="{'is-invalid': formErrors.dataNascimentoResp}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="cpfResp">CPF</label>
+              <input type="text" id="cpfResp" name="cpfResp" formControlName="cpfResp" maxlength="11" class="form-control" [ngClass]="{'is-invalid': formErrors.cpfResp}" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="rgResp">RG</label>
+              <input type="text" id="rgResp" name="rgResp" formControlName="rgResp" maxlength="20" class="form-control" [ngClass]="{'is-invalid': formErrors.rgResp}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="orgaoEmissorRgResp">Órgão Emissor RG</label>
+              <input type="text" id="orgaoEmissorRgResp" name="orgaoEmissorRgResp" formControlName="orgaoEmissorRgResp" maxlength="20" class="form-control" [ngClass]="{'is-invalid': formErrors.orgaoEmissorRgResp}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="ufOrgaoEmissorRgResp">UF RG</label>
+              <select id="ufOrgaoEmissorRgResp" name="ufOrgaoEmissorRgResp" formControlName="ufOrgaoEmissorRgResp" class="form-control">
+                <option [value]="'DF'">DF</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="h4">Dados para Contato</legend>
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-12 col-xs-12">
+              <label class="form-control-label" for="logradouroResp">Logradouro</label>
+              <input type="text" id="logradouroResp" name="logradouroResp" formControlName="logradouroResp" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.logradouroResp}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="numeroEnderecoResp">Número</label>
+              <input type="text" id="numeroEnderecoResp" name="numeroEnderecoResp" formControlName="numeroEnderecoResp" maxlength="20" class="form-control" [ngClass]="{'is-invalid': formErrors.numeroEnderecoResp}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="complementoEnderecoResp">Complemento</label>
+              <input type="text" id="complementoEnderecoResp" name="complementoEnderecoResp" formControlName="complementoEnderecoResp" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.complementoEnderecoResp}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="bairroResp">Bairro</label>
+              <input type="text" id="bairroResp" name="bairroResp" formControlName="bairroResp" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.bairroResp}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="municipioResp">Município</label>
+              <input type="text" id="municipioResp" name="municipioResp" formControlName="municipioResp" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.municipioResp}" />
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="ufResp">UF</label>
+              <select id="ufResp" name="ufResp" formControlName="ufResp" class="form-control">
+                <option *ngFor="let u of ufList" [value]="u.codigo">{{u.nome}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3 col-sm-6 col-xs-6">
+              <label class="form-control-label" for="telefoneAlternativo">Telefone Alternativo</label>
+              <input type="text" id="telefoneAlternativo" name="telefoneAlternativo" formControlName="telefoneAlternativo" maxlength="20" class="form-control" [ngClass]="{'is-invalid': formErrors.telefoneAlternativo}" />
+            </div>
+          </div>
+        </fieldset>
+        <div>
+          <span class="text-muted font-italic">
+            * Preencha os campos obrigatórios(<label class="required"></label>) para prosseguir
+          </span>
+        </div>
+        <div class="row button-row">
+          <div class="col-md-12 text-center">
+            <a [routerLink]="[returnUrl]" [queryParams]="returnUrlParams" class="btn btn-warning">
+              <span class="fa fa-arrow-left"></span>
+              Voltar
+            </a>
+            <button type="submit" [disabled]="!form.valid" class="btn btn-primary">
+              <span class="fa fa-arrow-right"></span>
+              Continuar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Convênio</h4>
+      <h6 class="card-subtitle mb-3 text-muted">Listagem dos convênios</h6>
+      <form role="form" name="form">
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label for="text" class="form-control-label">Informe o filtro da pesquisa </label>
+            <input type="text" id="filtro" name="text" [(ngModel)]="text" class="form-control" placeholder="Código, nome, descrição, etc..." />
+          </div>
+        </div>
+        <div class="row button-row">
+          <div class="col-md-12 text-center">
+            <button (click)="list()" class="btn btn-primary">
+              <span class="fa fa-search" aria-hidden="true"></span>
+              Pesquisar
+            </button>
+            <a title="Novo" [routerLink]="['/admin/convenio/new']" class="btn btn-secondary">
+              <span class="fa fa-plus" aria-hidden="true"></span>
+              Novo
+            </a>
+          </div>
+        </div>
+        <div class="table-responsive" *ngIf="page && page.content && page.totalElements > 0">
+          <table class="table table-sm table-hover">
+            <caption>Resultado da pesquisa ({{page.totalElements}})</caption>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Nome</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of page.content" [ngClass]="{'table-warning': !item.ativo}">
+                <td>
+                  <a title="Editar" [routerLink]="['/admin/convenio/edit', item.id]">
+                    {{item.codigo}}
+                  </a>
+                </td>
+                <td class="d-none d-sm-none d-md-block">
+                  {{item.nome}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <ngb-pagination [collectionSize]="page.totalElements" [(page)]="pageNumber" [pageSize]="pageSize" size="sm" [boundaryLinks]="true" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
+          </div>
+        </div>
+        <div class="container" *ngIf="page && page.content && page.totalElements == 0">
+          <div class="text-warning">
+            <strong>Nenhum registro encontrado</strong>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

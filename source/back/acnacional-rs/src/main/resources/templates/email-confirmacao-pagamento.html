@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="default">
+<head>
+  <title>AC Nacional</title>
+</head>
+<body>
+  <th:block layout:fragment="content">
+    <div style="color: #0d2a59;">
+      <div style="background-color: #fff; padding: 4px 12px 4px 12px;">
+        <h1 style="color: #fff;">
+          <img title="AC Nacional" alt="Logotipo" src="https://www.certificadoranacional.com/images/logo_acnacionalheader.svg" style="height: 72px;" />
+          <br />
+          Confirmacão de Pagamento
+        </h1>
+      </div>
+      <div><label style="font-weight: bold; font-size: 13px;">Pedido:</label> <span style="font-size: 13px;" th:text="${pedido.codigo}"></span></div>
+      <div><label style="font-weight: bold; font-size: 13px;">Validação:</label> <span style="font-size: 13px;">Pagamento confirmado</span></div>
+      <div><label style="font-weight: bold; font-size: 13px;">Cliente:</label> <span style="font-size: 13px;" th:text="${pedido.cliente.nome}"></span></div>
+      <div><label style="font-weight: bold; font-size: 13px;">Valor (R$):</label> <span style="font-size: 13px;" th:text="${pedido.valor}"></span></div>
+      <div>&nbsp;</div>
+      <table style="border-collapse: collapse; border: 1px solid black;">
+        <thead>
+          <tr>
+            <th style="border: 1px solid black; font-size: 13px;">Produto</th>
+            <th style="border: 1px solid black; font-size: 13px;">Quantidade</th>
+            <th style="border: 1px solid black; font-size: 13px;">Valor (R$)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="item: ${pedido.produtoList}">
+            <td style="border: 1px solid black; font-size: 13px; padding: 4px;" th:text="${item.produto.nome}"></td>
+            <td style="border: 1px solid black; font-size: 13px; padding: 4px; text-align: center;" th:text="${item.quantidade}"></td>
+            <td style="border: 1px solid black; font-size: 13px; padding: 4px; text-align: right;" th:text="${item.valor}"></td>
+          </tr>
+        </tbody>
+        <tr></tr>
+      </table>
+      <div>&nbsp;</div>
+      <p style="font-size: 13px;">
+        <strong>Atendimento Presencial:</strong> Acesse o link e faça o agendamento de seu atendimento presencial:<br />
+        <a href="https://carrinho.certificadoranacional.com/ui/privado/voucher">
+          https://carrinho.certificadoranacional.com/ui/privado/voucher
+        </a>
+      </p>
+      <p style="font-size: 13px;">
+        Dúvidas? Acesse o Suporte AC Nacional:<br />
+        <a href="https://certificadoranacional.com">https://certificadoranacional.com</a>
+      </p>
+      <hr style="color: #0d2a59; background-color: #0d2a59; height: 2px;" />
+      <p style="color: #0d2a59; font-size: 10px;">
+        Caso tenha dúvidas sobre a autenticidade desta mensagem, entre em contato com a AC Nacional:<br />
+        www.certificadoranacional.com<br />
+        vendas@acnacional.com<br />
+        (61) 3551-1006 - (61) 99828-1006 (whatsapp)<br />
+        Ed. Pátio Capital Sala 1309<br />
+        QS 03 Lotes 03/09<br />
+        Pistão Sul de Taguatinga<br />
+        Brasília DF        
+      </p>
+    </div>
+  </th:block>
+</body>
+</html>

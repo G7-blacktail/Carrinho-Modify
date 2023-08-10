@@ -1,0 +1,66 @@
+<div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Convênio</h4>
+        <h6 class="card-subtitle mb-3 text-muted">Cadastro de convênio</h6>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
+          <div class="row">
+            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="codigo">Código</label>
+              <input type="text" id="codigo" name="codigo" formControlName="codigo" placeholder="Código" maxlength="20" class="form-control" [ngClass]="{'is-invalid': formErrors.codigo}" required />
+              <div class="form-control-feedback" *ngIf="formErrors.codigo">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.codigo }}
+              </div>
+              <small class="form-text text-muted">Código do convênio, deve ser único</small>
+            </div>
+            <div class="form-group col-md-6 col-sm-12 col-xs-12">
+              <label class="form-control-label" for="nome">Nome</label>
+              <input type="text" id="nome" name="nome" formControlName="nome" placeholder="Nome" maxlength="100" class="form-control" [ngClass]="{'is-invalid': formErrors.nome}" required />
+              <div class="form-control-feedback" *ngIf="formErrors.nome">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.nome }}
+              </div>
+              <small class="form-text text-muted">Nome do convênio</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+              <label class="form-control-label" for="valor">Desconto</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">%</span>
+                </div>
+                <input type="text" id="valor" name="valor" formControlName="valor" placeholder="Valor em %" maxlength="3" class="form-control" [ngClass]="{'is-invalid': formErrors.valor}" required />
+              </div>
+              <div class="form-control-feedback" *ngIf="formErrors.valor">
+                <span class="fa fa-alert"></span>
+                {{ formErrors.valor }}
+              </div>
+              <small class="form-text text-muted">Valor % de desconto do convênio</small>
+            </div>
+            <div class="form-group col-md-3 col-sm-12 col-xs-12" *ngIf="id">
+              <label class="form-control-label" for="descricao">Situação</label>
+              <div class="form-check" [ngClass]="{'is-invalid': formErrors.ativo}">
+                <label class="form-check-label">
+                  <input type="checkbox" id="ativo" name="ativo" formControlName="ativo" class="form-check-input" />
+                  Ativo
+                </label>
+              </div>
+              <small class="form-text text-muted">Se está à venda ou não</small>
+            </div>
+          </div>
+          <div class="row button-row">
+            <div class="col-md-12 text-center">
+              <a [routerLink]="['/admin/convenio']" class="btn btn-warning">
+                <span class="fa fa-arrow-left"></span>
+                Voltar
+              </a>
+              <button type="submit" [disabled]="!form.valid" class="btn btn-primary">
+                <span class="fa fa-save"></span>
+                Salvar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

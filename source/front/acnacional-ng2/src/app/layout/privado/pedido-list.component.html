@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Meus Pedidos</h4>
+        <h6 class="card-subtitle mb-3 text-muted">Listagem dos meus pedidos</h6>
+        <form role="form" name="form">
+          <div class="table-responsive" *ngIf="page && page.content && page.totalElements > 0">
+            <table class="table table-sm table-hover">
+              <caption>Resultado da pesquisa ({{page.totalElements}})</caption>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th class="d-none d-sm-none d-md-block">Código</th>
+                  <th>Valor</th>
+                  <th>Situação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of page.content">
+                  <td>
+                    <a title="Visualizar" [routerLink]="['/privado/pedido/view', item.id]">
+                      {{item.data}}
+                    </a>
+                  </td>
+                  <td class="d-none d-sm-none d-md-block">
+                    {{item.codigo}}
+                  </td>
+                  <td>
+                    R$ {{item.valor}}
+                  </td>
+                  <td>
+                    {{item.situaca}}
+                    <span *ngIf="item.situacao == 0" class="red-text"><del>Cancelado</del></span>
+                    <span *ngIf="item.situacao == 1" class="black-text">Pendente</span>
+                    <span *ngIf="item.situacao == 2" class="black-text">Aguardando Pagamento</span>
+                    <span *ngIf="item.situacao == 3" class="green-text">Pago</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div>
+              <ngb-pagination [collectionSize]="page.totalElements" [(page)]="pageNumber" [pageSize]="pageSize" size="sm" [boundaryLinks]="true" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
+            </div>
+          </div>
+          <div class="container" *ngIf="page && page.content && page.totalElements == 0">
+            <div class="text-warning">
+              <strong>Nenhum registro encontrado</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <a title="Atualizar" href="javascript:void(0);" (click)="list()">
+                <span class="fa fa-refresh" aria-hidden="true"></span>
+                Atualizar
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

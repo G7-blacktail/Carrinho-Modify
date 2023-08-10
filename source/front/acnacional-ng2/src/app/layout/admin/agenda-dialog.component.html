@@ -1,0 +1,39 @@
+<div class="modal-header bg-primary" >
+  <h6 class="modal-title text-white">
+    Adicionar evento
+  </h6>
+  <button type="button" class="close text-white" aria-label="Close" (click)="activeModal.dismiss('Close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form role="form" name="formDialog">
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="form-control-label">Data</label>
+        <p class="form-control-plaintext">
+          {{data}}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="form-control-label" for="horario">Horário</label>
+        <select class="form-control" id="horario" name="horario" [(ngModel)]="horario" required>
+          <option *ngFor="let h of horarioList" [value]="h.id" [disabled]="!h.disponivel">
+            {{h.horario.descricao}} {{!h.disponivel ? ' - Indisponível' : ''}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="form-control-label" for="evento">Evento</label>
+        <input type="text" id="evento" name="evento" [(ngModel)]="evento" placeholder="Evento" maxlength="100" class="form-control" required />
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="onSubmit()">Salvar</button>
+</div>

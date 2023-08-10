@@ -1,0 +1,37 @@
+<div class="modal-header bg-primary" >
+  <h6 class="modal-title text-white">
+    Dados do Agendamento
+  </h6>
+  <button type="button" class="close text-white" aria-label="Close" (click)="onCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form role="form" name="formDialog">
+    <div>
+      <div class="form-group row mb-0">
+        <label class="col-lg-2 col-md-4 col-form-label">Nome</label>
+        <div class="col-lg-10 col-md-8">
+          <p class="form-control-plaintext">{{voucher.preCadastro.nomeResp}}</p>
+        </div>
+      </div>
+      <div class="form-group row mb-0">
+        <label class="col-lg-2 col-md-4 col-form-label">E-mail</label>
+        <div class="col-lg-10 col-md-8">
+          <p class="form-control-plaintext">{{voucher.preCadastro.emailResp}}</p>
+        </div>
+      </div>
+      <div class="form-group row mb-0">
+        <label class="col-lg-2 col-md-4 col-form-label">Telefones</label>
+        <div class="col-lg-10 col-md-8">
+          <p class="form-control-plaintext">{{voucher.preCadastro.telefonePrincipal}} {{voucher.preCadastro.telefoneAlternativo}}</p>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-warning" (click)="onCancel()">
+    Cancelar
+  </button>
+</div>

@@ -1,0 +1,51 @@
+<div class="modal-header bg-primary" >
+  <h6 class="modal-title text-white">
+    Informar Convênio
+  </h6>
+  <button type="button" class="close text-white" aria-label="Close" (click)="onCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form role="form" name="formDialog">
+    <div class="row" *ngIf="mode == 0">
+      <div class="col-md-12">
+        <h5 class="text-danger text-center font-weight-bold">Leia com atenção!</h5>
+        Só poderá obter os benefícios do Convênio o cliente em dia com suas obrigações perante a entidade conveniada.<br />
+        No ato do atendimento, o cliente deverá apresentar sua identidade profissional.<br />
+        Também será consultada a base de dados da entidade conveniada para comprovar a
+        regularidade profissional do cliente. Se não constar o registro do cliente na base de dados, ou
+        se constar pendências do profissional com a entidade, o desconto não poderá ser concedido.
+        <h5 class="text-danger text-center font-weight-bold">Advertência!</h5>
+        Só declare possuir um CONVÊNIO se você for filiado ou associado a uma entidade conveniada.<br />
+        Declarações falsas sujeitam o infrator à indenização por dano material e moral, sem prejuízo das
+        sanções penais cabíveis.
+      </div>
+    </div>
+    <div *ngIf="mode == 1">
+      <div class="form-group row">
+        <label class="col-lg-4 col-md-6 col-form-label" for="tituloCredito">Convênio</label>
+        <div class="col-lg-8 col-md-6">
+          <input type="text" id="codigo" name="codigo" [(ngModel)]="codigo" class="form-control" maxlength="20" [disabled]="validating">
+        </div>
+      </div>
+      <div class="row" *ngIf="error">
+        <div class="col-md-12 text-danger text-center text-mutted">
+          <span class="fa fa-exclamation-circle"></span>
+          Convênio inválido
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-warning" (click)="onCancel()" [disabled]="validating">
+    Cancelar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onNext()" *ngIf="mode == 0">
+    Continuar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onAdd()" *ngIf="mode == 1" [disabled]="validating">
+    Continuar
+  </button>
+</div>

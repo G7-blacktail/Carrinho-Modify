@@ -1,0 +1,162 @@
+<div class="container">
+  <form role="form" name="form" *ngIf="item">
+    <div class="mb-4" *ngIf="currentPedidoProduto">
+      <h2 class="font-weight-bold text-success">O que você está comprando</h2>
+      <div class="row bg-light border border-light p-2">
+        <div class="col-md-3 bg-white text-center">
+          <img [src]="currentPedidoProduto.produto.imagem" [alt]="currentPedidoProduto.produto.nome">
+        </div>
+        <div class="col-md-6 align-self-center">
+          <span class="h3 font-weight-bold text-success">{{currentPedidoProduto.produto.nome}}</span>
+        </div>
+        <div class="col-md-3 align-self-center">
+          <span class="h3 font-weight-bold text-dark">R$ {{currentPedidoProduto.valor}}</span>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="form" id="campoCep">
+      <!-- Campo de CEP -->
+      <div class="form-group-cep">
+        <label for="cep">Informe seu CEP: </label>
+        <input type="text" class="form-control" id="cep" name="cep" formControlName="cep" (input)="formatarCEP()">
+      </div>
+      <button class="cepButton" type="button" (click)="calcularFrete()">Calcular</button>
+    </form>
+    <h2 class="font-weight-bold text-success">Carrinho</h2>
+    <table class="table table-striped" *ngIf="item.produtoList && item.produtoList.length > 0">
+      <thead>
+        <tr>
+          <th class="font-weight-bold text-success">Produto</th>
+          <th class="font-weight-bold text-success">Quantidade</th>
+          <th class="font-weight-bold text-success">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of item.produtoList">
+          <td [ngClass]="{'font-weight-bold': p.id == currentPedidoProduto?.id}">
+            {{p.produto.nome}}
+          </td>
+          <td [ngClass]="{'font-weight-bold': p.id == currentPedidoProduto?.id}">
+            <a title="Adicionar" href="javascript:void(0)" class="m-1" (click)="onDecItem(p)">
+              <span class="fa fa-minus"></span>
+            </a>
+            {{p.quantidade}}
+            <a title="Adicionar" href="javascript:void(0)" class="m-1" (click)="onIncItem(p)">
+              <span class="fa fa-plus"></span>
+            </a>
+          </td>
+          <td [ngClass]="{'font-weight-bold': p.id == currentPedidoProduto?.id}">
+            R$ {{p.valor}}
+          </td>
+        </tr>
+        <tr>
+          <td>Valor do envio</td>
+          <td></td>
+          <td>R$ {{ valorFrete.toFixed(2).replace(".",",") }}</td> <!-- Utilize a interpolação para mostrar o valor do frete -->
+        </tr>
+        <tr>
+          <td colspan="2">
+            <strong>TOTAL</strong>
+          </td>
+          <td>
+            <strong>R$ {{ item.valor }}</strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="form-group row" *ngIf="isLoggedIn() && item.produtoList && item.produtoList.length > 0">
+      <div class="col-md-12">
+        <span class="h3 font-weight-bold">Selecione o local para seu atendimento presencial</span>
+      </div>
+      <div class="col-md-12">
+        <div class="custom-controls-stacked">
+          <div *ngFor="let p of postoList" class="form-check form-check m-2">
+            <input class="form-check-input" type="radio" name="posto" [(ngModel)]="posto" [value]="p.id">
+            <label class="form-check-label" for="posto">
+              <span *ngIf="p.codigo == 'ITECLIDERSIS'">
+                <span class="h5 font-weight-bold">Atendimento presencial</span>
+                <br />
+                Só prestamos atendimento presencial nas nossas lojas físicas localizadas no Distrito Federal. Se você preferir nos visitar, é um prazer recebê-lo e fazer seu certificado digital com a entrega na hora.
+                <br />
+                A documentação necessária para a emissão de seu certificado presencialmente deverá ser apresentada no momento do atendimento ou encaminhada por upload, whatsApp ou e-mail. Traga os originais para conferência. Confira abaixo a relação de documentos para emitir seu certificado digital.
+              </span>
+              <span *ngIf="p.codigo == 'ONVIDEO'">
+                <span class="h5 font-weight-bold">Atendimento por videoconferência</span>
+                <br />
+                Você pode fazer seu certificado digital por videoconferência na <span class="text-primary font-weight-bold">Certificadora Nacional</span> de qualquer lugar do Brasil ou do Mundo.
+                <br />
+                Para emissão de seu certificado por videoconferência o documento <span class="text-warning font-weight-bold">obrigatório</span> de identificação pessoal é a <span class="text-warning font-weight-bold">CNH</span> – Carteira Nacional de Habilitação com data de validade vigente.
+                <br />
+                O procedimento por videoconferência pode ser feito pelo celular ou computador. É simples e rápido, em poucos minutos nossos agentes de registro concluem seu atendimento e você recebe imediatamente seu Certificado Digital.
+                <br />
+                Você deverá nos encaminhar os documentos obrigatórios por upload, whatsApp ou e-mail. Confira abaixo a relação de documentos para emitir seu certificado digital.
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center m-4" *ngIf="!isLoggedIn() && item.produtoList && item.produtoList.length > 0">
+      <div class="alert alert-light border border-danger text-danger h4" role="alert">
+        <span class="fa fa-exclamation-circle"></span>
+        Você deve estar logado para concluir o pedido.
+      </div>
+    </div>
+    <div class="text-center m-4" *ngIf="!item.produtoList || item.produtoList.length == 0">
+      <div class="alert alert-light border border-danger text-danger h4" role="alert">
+        <span class="fa fa-exclamation-circle"></span>
+        Seu carrinho não contém nenhum item
+      </div>
+    </div>
+    <div class="text-center mt-1">
+      <a title="Comprar mais produtos" [routerLink]="['/publico']" class="btn btn-primary rounded m-2">
+        <span class="fa fa-arrow-left"></span>
+        Comprar mais produtos
+      </a>
+      <button title="Login" type="button" (click)="login()" class="btn btn-warning rounded m-2" *ngIf="!isLoggedIn() && item.produtoList && item.produtoList.length > 0">
+        <span class="fa fa-sign-in"></span>
+        Login
+      </button>
+      <button title="Finalizar a compra" type="button" (click)="onSubmit()" class="btn btn-warning rounded m-2" *ngIf="isLoggedIn() && item.produtoList && item.produtoList.length > 0">
+        <span class="fa fa-check"></span>
+        Finalizar a compra
+      </button>
+    </div>
+  </form>
+  <div id="divDocumentos" class="mt-4" *ngIf="isLoggedIn() && item && item.produtoList && item.produtoList.length > 0">
+    <div>
+      <strong>DOCUMENTAÇÃO NECESSÁRIA PARA EMISSÃO DE CERTIFICADO DIGITAL DA PESSOA JURÍDICA</strong>
+      <ul class="check">
+        <li>Contrato social da pessoa jurídica com a última alteração contratual, ou Consulta da RedeSim ou Certidão Simplificada emitida pela Junta Comercial dentro do prazo de validade.</li>
+        <li>Estatuto social da cooperativa ou da associação e ata de eleição da diretoria</li>
+        <li>Convenção e ata de eleição da diretoria se for condomínio</li>
+        <li>CNPJ</li>
+      </ul>
+      Documentos pessoais do representante legal:
+      <ul class="check">
+        <li>CNH, RG, ou Carteira Funcional ou de Classe (para atendimento por <strong>videoconferência</strong> a CNH com data de validade vigente é <strong>obrigatória</strong>)</li>
+        <li>CPF</li>
+        <li>Endereço residencial com CEP</li>
+        <li>E-mail</li>
+        <li>Telefone/whatsApp para contato</li>
+        <li>CEI ou CNO (caso a empresa possua a matrícula nestes cadastros)</li>
+      </ul>
+    </div>
+    <div>
+      <strong>DOCUMENTAÇÃO NECESSÁRIA PARA EMISSÃO DE CERTIFICADO DIGITAL DA PESSOA FÍSICA</strong>
+      <ul class="check">
+        <li>CNH, RG, ou Carteira Funcional ou de Classe (para atendimento por <strong>videoconferência</strong> a CNH com data de validade vigente é <strong>obrigatória</strong>)</li>
+        <li>CPF</li>
+        <li>Endereço residencial com CEP</li>
+        <li>E-mail</li>
+        <li>Telefone/whatsApp para contato</li>
+      </ul>
+      Documentos opcionais (não substituem os obrigatórios):
+      <ul class="check">
+        <li>Título de eleitor</li>
+        <li>NIS, PIS ou Pasep</li>
+        <li>CEI ou CNO (caso a pessoa possua a matrícula nestes cadastros)</li>
+      </ul>
+    </div>
+  </div>
+</div>

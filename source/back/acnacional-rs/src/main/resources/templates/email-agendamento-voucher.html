@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="default">
+<head>
+  <title>AC Nacional</title>
+</head>
+<body>
+  <th:block layout:fragment="content">
+    <div style="color: #0d2a59;">
+      <div style="background-color: #fff; padding: 4px 12px 4px 12px;">
+        <h1 style="color: #fff;">
+          <img title="AC Nacional" alt="Logotipo" src="https://www.certificadoranacional.com/images/logo_acnacionalheader.svg" style="height: 72px;" />
+          <br />
+          Confirmação de Agendamento do Atendimento Presencial
+          <span th:text="${voucher.pedidoProduto.produto.grupo.codigo}"></span>
+        </h1>
+      </div>
+      <div><label style="font-weight: bold; font-size: 13px;">Pedido:</label> <span style="font-size: 13px;" th:text="${voucher.pedido.codigo}"></span></div>
+      <div><label style="font-weight: bold; font-size: 13px;">Validação:</label> <span style="font-size: 13px;">Agendamento confirmado</span></div>
+      <div><label style="font-weight: bold; font-size: 13px;">Voucher:</label> <span style="font-size: 13px;" th:text="${voucher.codigo}"></span></div>
+      <div><label style="font-weight: bold; font-size: 13px;">Cliente:</label> <span style="font-size: 13px;" th:text="${voucher.cliente.nome}"></span></div>
+      <div><label style="font-weight: bold; font-size: 13px;">Produto:</label> <span style="font-size: 13px;" th:text="${voucher.pedidoProduto.produto.nome}"></span></div>
+      <div>
+        <label style="font-weight: bold; font-size: 13px;">Local do Atendimento:</label>
+        <span style="font-size: 13px;" th:text="${voucher.horarioPosto.posto.nome}"></span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="font-size: 13px;" th:text="${voucher.horarioPosto.posto.endereco}"></span>
+        <span style="font-size: 13px;" th:text="${voucher.horarioPosto.posto.complemento}"></span>
+        <span style="font-size: 13px;" th:text="${voucher.horarioPosto.posto.numero}"></span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="font-size: 13px;" th:text="${voucher.horarioPosto.posto.telefone}"></span>
+      </div>
+      <div>
+        <label style="font-weight: bold; font-size: 13px;">Data e Hora:</label>
+        <span style="font-size: 13px;" th:text="${voucher.horarioPosto.data}"></span>
+        de
+        <span style="font-size: 13px;" th:text="${voucher.horarioPosto.horario.inicio}"></span>
+        às
+        <span style="font-size: 13px;" th:text="${voucher.horarioPosto.horario.fim}"></span>
+      </div>
+      <div th:if="${voucher.pedidoProduto.produto.grupo.codigo == 'ECPF'}">
+        <h4>DOCUMENTAÇÃO PARA EMISSÃO DO CERTIFICADO DIGITAL DE PESSOA FÍSICA</h4>
+        <strong>Apresentar os documentos originais. A legislação não permite cópias, ainda que autenticadas em cartório.</strong><br />
+        <p>
+          1. Documento de identificação pessoal com foto, preferencialmente, Cédula de Identidade (RG) e CNH (Carteira Nacional de Habilitação).<br />
+          2. Prova de inscrição no CPF (dispensada, caso conste o registro do CPF em qualquer dos documentos de identificação).<br />
+          3. Carteira Nacional de Estrangeiro – CNE, se estrangeiro domiciliado no Brasil.<br />
+          4. Passaporte, se estrangeiro não domiciliado no Brasil.<br />
+          5. Uma foto 3x4 recente caso os documentos de identificação tenham mais de cinco anos de emissão.<br />
+          6. Comprovante de residência ou domicílio dos representantes legais da empresa, emitido há no máximo 3 (três) meses.<br />
+          7. Assinatura do Termo de Titularidade, presencialmente, perante o Agente de Registro da LIDERSIS.<br />
+          8. Se for informado o NIT/PIS/PASEP, apresentar a prova de inscrição.<br />
+          9. Se for informado o Cadastro Específico do INSS - CEI, apresentar a prova de inscrição.<br />
+          10. Se for informado o título de eleitor, apresentar a prova de inscrição.<br />
+        </p>
+        <p>
+          <strong>Atenção!</strong><br />
+          1. Apresentar os documentos originais. Não são aceitas cópias, ainda que autenticadas em cartório.<br />
+          2. É obrigatória a identificação presencial e biométrica da pessoa física.<br />
+          3. Alternativamente ao documento de identificação pessoal, será aceito documento de identificação profissional, emitido por entidade de classe ou órgão competente, como OAB, CRM, etc.<br />
+          4. Em relação à CTPS, só será aceito o modelo informatizado da Carteira de Trabalho – CTPS, como documento alternativo de identificação pessoal.<br />
+        </p>
+      </div>
+      <div th:if="${voucher.pedidoProduto.produto.grupo.codigo == 'ECNPJ' or voucher.pedidoProduto.produto.grupo.codigo == 'NFE'}">
+        <h4>DOCUMENTAÇÃO PARA EMISSÃO DO CERTIFICADO DIGITAL DE PESSOA JURÍDICA</h4>
+        <strong>Apresentar os documentos originais. A legislação não permite cópias, ainda que autenticadas em cartório.</strong><br />
+        <p>
+          &nbsp;&nbsp;1. Ato constitutivo da Pessoa Jurídica, original, devidamente registrado no órgão competente.<br />
+          &nbsp;&nbsp;2. Alterações do Ato constitutivo, originais, devidamente registradas no órgão competente.<br />
+          &nbsp;&nbsp;3. Documentos da designação dos administradores, quando aplicável.<br />
+          &nbsp;&nbsp;4. Prova de inscrição no CNPJ.<br />
+          &nbsp;&nbsp;5. Prova de Inscrição Estadual (para fins de emissão da Nota Fiscal de venda do certificado digital).<br />
+       </p>
+       <p>
+          Documentos obrigatórios dos representantes legais da Pessoa Jurídica:<br />
+          &nbsp;&nbsp;1. Documento de identificação pessoal, preferencialmente, Cédula de Identidade (RG) e CNH (Carteira Nacional de Habilitação).<br />
+          &nbsp;&nbsp;2. Prova de inscrição no CPF (dispensada, caso conste o registro do CPF em qualquer dos documentos de identificação).<br />
+          &nbsp;&nbsp;3. Carteira Nacional de Estrangeiro – CNE, se estrangeiro domiciliado no Brasil.<br />
+          &nbsp;&nbsp;4. Passaporte, se estrangeiro não domiciliado no Brasil.<br />
+          &nbsp;&nbsp;5. Uma foto 3x4 recente caso os documentos de identificação tenham mais de cinco anos de emissão.<br />
+          &nbsp;&nbsp;6. Comprovante de residência ou domicílio dos representantes legais da empresa, emitido há no máximo 3 (três) meses.<br />
+          &nbsp;&nbsp;7. Assinatura do Termo de Titularidade, presencialmente, perante o Agente de Registro da LIDERSIS.<br />
+          &nbsp;&nbsp;8. Se for informado o NIT/PIS/PASEP, apresentar a prova de inscrição.<br />
+          &nbsp;&nbsp;9. Se for informado o Cadastro Específico do INSS - CEI, apresentar a prova de inscrição.<br />
+          &nbsp;&nbsp;10. Se for informado o título de eleitor, apresentar a prova de inscrição.<br />
+        </p>
+        <p>
+          <strong>Atenção!</strong><br />
+          &nbsp;&nbsp;1. É obrigatória a identificação presencial e biométrica da pessoa física, responsável legal da pessoa jurídica.<br />
+          &nbsp;&nbsp;2. Se a pessoa jurídica tiver mais de um representante legal, e o contrato social exigir assinaturas conjuntas para a prática dos atos em nome da empresa, todos os representantes deverão comparecer, pessoalmente, à LIDERSIS para identificação pessoal e biométrica.<br />
+          &nbsp;&nbsp;3. Alternativamente ao documento de identificação pessoal do representante legal, será aceito documento de identificação profissional, emitido por entidade de classe ou órgão competente, como OAB, CRM, etc.<br />
+          &nbsp;&nbsp;4. Em relação à CTPS, só será aceito o modelo informatizado da Carteira de Trabalho – CTPS, como documento alternativo de identificação pessoal.<br />
+          &nbsp;&nbsp;5. Será designado, como responsável pelo certificado digital, o representante legal da pessoa jurídica perante a Receita Federal do Brasil.<br />
+          &nbsp;&nbsp;6. Em relação a condomínios:<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;a.  apresentar comprovação do ato constitutivo do condomínio devidamente registrado no Cartório de Registro de Imóveis ou, para condomínios não constituídos na forma da legislação, certidão do instrumento de individualização do condomínio, emitida pelo Cartório de Registro de Imóveis.<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;b. Ata da Assembleia Condominial que escolheu o Síndico, acompanhada da lista dos participantes da eleição, sendo obrigatória a participação de ao menos um proprietário de imóvel localizado no condomínio, com a comprovação de sua propriedade e firma reconhecida na referida Ata.<br />
+        </p>
+      </div>
+      <div>&nbsp;</div>
+      <p style="font-size: 13px;">
+        Dúvidas? Acesse o Suporte AC Nacional:<br />
+        <a href="https://certificadoranacional.com">https://certificadoranacional.com</a>
+      </p>
+      <hr style="color: #0d2a59; background-color: #0d2a59; height: 2px;" />
+      <p style="color: #0d2a59; font-size: 10px;">
+        Caso tenha dúvidas sobre a autenticidade desta mensagem, entre em contato com a AC Nacional:<br />
+        www.certificadoranacional.com<br />
+        vendas@acnacional.com<br />
+        (61) 3551-1006 - (61) 99828-1006 (whatsapp)<br />
+        Ed. Pátio Capital Sala 1309<br />
+        QS 03 Lotes 03/09<br />
+        Pistão Sul de Taguatinga<br />
+        Brasília DF
+      </p>
+    </div>
+  </th:block>
+</body>
+</html>

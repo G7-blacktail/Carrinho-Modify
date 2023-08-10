@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Agendamento</h4>
+      <h6 class="card-subtitle mb-3 text-muted">Listagem dos vouchers</h6>
+      <form role="form" name="form">
+        <div class="table-responsive" *ngIf="page && page.content && page.totalElements > 0">
+          <table class="table table-sm table-hover">
+            <caption>Resultado da pesquisa ({{page.totalElements}})</caption>
+            <thead>
+              <tr>
+                <th>Ação</th>
+                <th class="d-none d-md-table-cell">Código</th>
+                <th>Produto</th>
+                <th class="d-none d-md-table-cell">Situação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of page.content">
+                <td>
+                  <a title="Agendar" [routerLink]="['/privado/pedido', item.pedido.id, 'voucher', item.id, 'agendamento-edit']" [queryParams]="{back: 'voucher'}" *ngIf="isAgendavel(item) && item.ativo">
+                    <span class="fa fa-calendar"></span>
+                    Agendar
+                  </a>
+                </td>
+                <td class="d-none d-md-table-cell">
+                  <a title="Detalhar Pedido" [routerLink]="['/privado/pedido/view', item.pedido.id]">
+                    {{item.codigo}}
+                  </a>
+                </td>
+                <td>
+                  {{item.produto.nome}}
+                </td>
+                <td class="d-none d-md-table-cell">
+                  <span *ngIf="isAgendavel(item) && item.ativo && !item.horarioPosto" class="text-success">
+                    Sem agendamento
+                  </span>
+                  <span *ngIf="isAgendavel(item) && item.ativo && item.horarioPosto">
+                    Agendado para
+                    {{item.horarioPosto.data}}
+                    às
+                    {{item.horarioPosto.horario.inicio}}
+                    na
+                    {{item.horarioPosto.posto.nome}}<br />
+                    <small>
+                      {{item.horarioPosto.posto.endereco}}
+                      {{item.horarioPosto.posto.numero}}
+                      {{item.horarioPosto.posto.complemento}}
+                      -
+                      {{item.horarioPosto.posto.municipio.nome}}
+                      /
+                      {{item.horarioPosto.posto.uf.codigo}}
+                      <br />
+                      {{item.horarioPosto.posto.email}}
+                      &nbsp;|&nbsp;
+                      {{item.horarioPosto.posto.telefone}}
+                    </small>
+                  </span>
+                  <span *ngIf="!isAgendavel(item) && item.ativo" class="text-success">Não há necessidade de agendamento para retirar este produto</span>
+                  <span *ngIf="!item.ativo" class="text-danger">Usado</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <ngb-pagination [collectionSize]="page.totalElements" [(page)]="pageNumber" [pageSize]="pageSize" size="sm" [boundaryLinks]="true" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
+          </div>
+        </div>
+        <div class="container" *ngIf="page && page.content && page.totalElements == 0">
+          <div class="text-warning">
+            <strong>Nenhum registro encontrado</strong>
+          </div>
+        </div>
+        <div class="card-text text-center" *ngIf="!isLoggedIn()">
+          <span class="text-danger h4">
+            <span class="fa fa-exclamation-circle"></span>
+            Você deve estar logado para visualizar seus produtos.
+          </span>
+        </div>
+        <div class="card-text" *ngIf="!isLoggedIn()">
+          <div class="text-center button-row">
+            <button title="Login" type="button" (click)="login()" class="btn btn-danger">
+              <span class="fa fa-sign-in"></span>
+              Login
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

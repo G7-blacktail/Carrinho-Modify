@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Produtos</h4>
+      <h6 class="card-subtitle mb-3 text-muted">Listagem dos produtos</h6>
+      <form role="form" name="form">
+        <div class="row">
+          <div class="form-group col-md-3 col-sm-6 col-xs-12">
+            <label class="form-control-label" for="tipo">Tipo</label>
+            <select id="tipo" name="tipo" class="form-control" [(ngModel)]="tipo" (change)="onChangeTipo()">
+              <option value="">TODOS</option>
+              <option *ngFor="let t of tipoList" [value]="t.id">{{t.nome}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3 col-sm-6 col-xs-12">
+            <label class="form-control-label" for="grupo">Grupo</label>
+            <select id="grupo" name="grupo" class="form-control" [(ngModel)]="grupo" (change)="onChangeGrupo()">
+              <option value="">TODOS</option>
+              <option *ngFor="let g of grupoList" [value]="g.id">{{g.nome}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6 col-sm-12 col-xs-12">
+            <label class="form-control-label" for="subGrupo">SubGrupo</label>
+            <select id="subGrupo" name="subGrupo" class="form-control" [(ngModel)]="subGrupo">
+              <option value="">TODOS</option>
+              <option *ngFor="let s of subGrupoList" [value]="s.id">{{s.nome}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label for="text" class="form-control-label">Informe o filtro da pesquisa </label>
+            <input type="text" id="filtro" name="text" [(ngModel)]="text" class="form-control" placeholder="Código, nome, descrição, etc..." />
+          </div>
+        </div>
+        <div class="row button-row">
+          <div class="col-md-12 text-center">
+            <button (click)="list()" class="btn btn-primary">
+              <span class="fa fa-search" aria-hidden="true"></span>
+              Pesquisar
+            </button>
+            <a title="Novo" [routerLink]="['/admin/produto/new']" class="btn btn-secondary">
+              <span class="fa fa-plus" aria-hidden="true"></span>
+              Novo
+            </a>
+          </div>
+        </div>
+        <div class="table-responsive" *ngIf="page && page.content && page.totalElements > 0">
+          <table class="table table-sm table-hover">
+            <caption>Resultado da pesquisa ({{page.totalElements}})</caption>
+            <thead>
+              <tr>
+                <th class="d-none d-sm-none d-md-block">Código</th>
+                <th>Nome</th>
+                <th class="d-none d-sm-none d-md-block">Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of page.content">
+                <td class="d-none d-sm-none d-md-block">
+                  <a title="Editar" [routerLink]="['/admin/produto/edit', item.id]">
+                    {{item.codigo}}
+                  </a>
+                </td>
+                <td>
+                  <a title="Editar" [routerLink]="['/admin/produto/edit', item.id]">
+                    {{item.nome}}
+                  </a>
+                </td>
+                <td class="d-none d-sm-none d-md-block">
+                  {{item.descricao}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <ngb-pagination [collectionSize]="page.totalElements" [(page)]="pageNumber" [pageSize]="pageSize" size="sm" [boundaryLinks]="true" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
+          </div>
+        </div>
+        <div class="container" *ngIf="page && page.content && page.totalElements == 0">
+          <div class="text-warning">
+            <strong>Nenhum registro encontrado</strong>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Pedidos</h4>
+        <h6 class="card-subtitle mb-3 text-muted">Listagem dos pedidos</h6>
+        <form role="form" name="form">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="text" class="form-control-label">Informe o filtro da pesquisa </label>
+              <input type="text" id="filtro" name="text" [(ngModel)]="text" class="form-control" placeholder="Código, nome, descrição, etc..." />
+            </div>
+          </div>
+          <div class="row button-row">
+            <div class="col-md-12 text-center">
+              <button (click)="list()" class="btn btn-primary">
+                <span class="fa fa-search" aria-hidden="true"></span>
+                Pesquisar
+              </button>
+            </div>
+          </div>
+          <div class="table-responsive" *ngIf="page && page.content && page.totalElements > 0">
+            <table class="table table-sm table-hover">
+              <caption>Resultado da pesquisa ({{page.totalElements}})</caption>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th class="d-none d-sm-none d-md-block">Cliente</th>
+                  <th>Valor</th>
+                  <th>Situação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of page.content">
+                  <td>
+                    <a title="Visualizar" [routerLink]="['/admin/pedido/view', item.id]">
+                      {{item.data}}
+                    </a>
+                  </td>
+                  <td class="d-none d-sm-none d-md-block">
+                    {{item.cliente?.nome}}
+                  </td>
+                  <td>
+                    R$ {{item.valor}}
+                  </td>
+                  <td>
+                    {{item.situaca}}
+                    <span *ngIf="item.situacao == 0" class="red-text"><del>Cancelado</del></span>
+                    <span *ngIf="item.situacao == 1" class="black-text">Pendente</span>
+                    <span *ngIf="item.situacao == 2" class="black-text">Aguardando Pagamento</span>
+                    <span *ngIf="item.situacao == 3" class="green-text">Pago</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div>
+              <ngb-pagination [collectionSize]="page.totalElements" [(page)]="pageNumber" [pageSize]="pageSize" size="sm" [boundaryLinks]="true" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
+            </div>
+          </div>
+          <div class="container" *ngIf="page && page.content && page.totalElements == 0">
+            <div class="text-warning">
+              <strong>Nenhum registro encontrado</strong>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

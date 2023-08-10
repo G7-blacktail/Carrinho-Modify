@@ -1,0 +1,34 @@
+ul.check {
+}
+
+.form-group-cep {
+    color: #000000ce;
+    padding: 10px; 
+    border: 1px #ccc; 
+    border-radius: 5px; 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); 
+    width: 15%;
+}
+
+#campoCep {
+    display: flex;
+    flex-wrap:  wrap;
+    justify-content:flex-start;
+    margin: 20px, 20px, 20px, 20px;
+    padding: auto;
+}
+
+.cepButton {
+    background-color: #007bff; 
+    color: #fff; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); 
+    margin-top: 5px;
+  }
+  
+  .cepButton:hover {
+    background-color: #0056b3;
+  }

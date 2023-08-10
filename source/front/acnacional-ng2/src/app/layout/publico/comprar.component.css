@@ -1,0 +1,65 @@
+div.item-text {
+  font-family: inherit;
+  text-align: justify;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+.button-row {
+  padding-bottom: 0px;
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 0px;
+}
+
+.borderless tr, .borderless th, .borderless td {
+  border: none;
+}
+
+.col-form-label {
+  padding: 0px;
+}
+
+.form-control-plaintext {
+  padding: 0px;
+}
+
+select.form-control, select.custom-select, input.form-control {
+  height: 29px !important;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+card-header {
+  padding: 0.75rem 0.75rem;
+}
+
+#labelQuantidade {
+  margin-top: 5px;
+}
+
+#quantidade {
+  width: 80px;
+}
+
+@media (max-width: 575px) {
+  .card {
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 767px) {
+  .card {
+    margin-bottom: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .card {
+    margin-bottom: 20px;
+  }
+}

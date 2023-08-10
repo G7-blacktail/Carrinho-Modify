@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="card" *ngIf="item">
+    <div class="card-body">
+      <h4 class="card-title text-center">
+        <a title="Anterior" href="javascript:void(0);" (click)="toPrevious()" class="btn-link">
+          <span class="fa fa-chevron-left"></span>
+        </a>
+        &nbsp;
+        Agenda
+        {{item.posto.nome}}
+        {{item.mesStr}}
+        {{item.ano}}
+        &nbsp;
+        <a title="Anterior" href="javascript:void(0);" (click)="toNext()" class="btn-link">
+          <span class="fa fa-chevron-right"></span>
+        </a>
+      </h4>
+      <form name="form">
+        <div class="row">
+          <table class="table table-sm" *ngIf="item.diaList && item.diaList.length > 0">
+            <tbody>
+              <tr *ngFor="let d of item.diaList">
+                <td style="width: 120px;" class="text-center">
+                  <strong>{{d.dia}}</strong>
+                  <br />
+                  <small>{{d.diaStr}}</small>
+                  <br />
+                  <a title="Adicionar" href="javascript:void(0)" (click)="onSelectData(d.data)">
+                    <small>
+                      <span class="fa fa-plus"></span>
+                      Adicionar
+                    </small>
+                  </a>
+                </td>
+                <td>
+                  <div *ngFor="let i of d.itemList">
+                    <small>
+                      <a title="Excluir" href="javascript:void(0)" (click)="onDelete(i.horarioPosto.id)">
+                        <span class="fa fa-trash"></span>
+                      </a>
+                      <span *ngIf="i.horarioPosto.tipo == 1 && i.voucher?.ativo">&nbsp;&nbsp;</span>
+                      <a title="Concluir o atendimento" href="javascript:void(0)"  (click)="onConfirm(i.voucher)" *ngIf="i.horarioPosto.tipo == 1 && i.voucher?.ativo">
+                        <span class="fa fa-check"></span>
+                      </a>
+                      <a title="Visualizar" [routerLink]="['/admin/pedido/view', i.voucher.pedido.id]" [queryParams]="{return: '/admin/agenda/' + id}" *ngIf="i.horarioPosto.tipo == 1">
+                        {{i.horarioPosto.horario.descricao}}
+                        {{i.horarioPosto.evento}}
+                      </a>
+                      <span *ngIf="i.horarioPosto.tipo != 1">
+                        {{i.horarioPosto.horario.descricao}}
+                        {{i.horarioPosto.evento}}
+                      </span>
+                    </small>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
